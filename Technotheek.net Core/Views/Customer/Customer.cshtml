@@ -1,0 +1,77 @@
+﻿@model IEnumerable<TechnotheekWeb.Models.SongListBEL>
+
+@{
+    ViewData["Title"] = "Customer";
+}
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    <h1>Customer</h1>
+
+<form asp-controller="Customer" asp-action="Search" method="post">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Search song</label>
+        <input type="text" name="NameSong" class="form-control">
+        <small id="Found" name="SongsFound" class="form-text text-muted"></small>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<partial name="_SongPlayPartial" />
+
+<form asp-controller="Customer" asp-action="Play">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td type="text" name="selectedSong">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-primary">Play</button> |
+                        @Html.ActionLink("Play", "Play", new { selectedSong = item.Name }, new { id = "MyLink" })
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</form>
+}
+
+@*<video id="videoplayer" scr="@Url.Content("~/Music/video.mp4")" controls width="450" height="200" />*@
+
+
+@*@section scripts{
+        <script>
+            $("#MyLink").click(function(e){
+
+        e.preventDefault();
+        $.ajax({
+
+            url:$(this).attr("href"),
+            success: function(){
+            alert("Value Added");
+            }
+
+        });
+
+    });
+        </script>*@
+
+
+
+
