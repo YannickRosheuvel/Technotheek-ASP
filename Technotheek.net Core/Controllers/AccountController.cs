@@ -22,7 +22,7 @@ namespace TechnotheekWeb.Controllers
         static SongDAL songDAL = new SongDAL();
         SongContainer songContainer = new SongContainer(songDAL);
         CustomerController customerController = new CustomerController();
-        Song song = new Song();
+        SongCreateViewModel song = new SongCreateViewModel();
         // GET: Account
 
         [HttpGet]

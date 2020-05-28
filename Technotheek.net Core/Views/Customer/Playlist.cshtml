@@ -1,0 +1,54 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+<button type="submit" id="open" class="btn btn-primary">Create new Playlist</button>
+
+<div class="container">
+    <div class="modal fade" tabindex="-1" id="loginModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Create Playlist</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        ×
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="CreatePlaylist" asp-controller="Customer" asp-action="CreatePlaylist" method="post">
+                        <div class="form-group">
+                            <label>Name your new Playlist</label>
+                            <input type="text" name="PlaylistName" class="form-control" id="PlaylistName">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create playlist</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary button button4">Sign</button>
+                    <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                        Hide
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+
+</script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+    $("#open").click(function () {
+        $("#loginModal").modal('show');
+    });
+
+    $("#btnHideModal").click(function () {
+        $("#loginModal").modal('hide');
+    });
+</script>

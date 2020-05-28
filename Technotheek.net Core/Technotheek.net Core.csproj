@@ -19,11 +19,6 @@
     <Folder Include="wwwroot\Songs\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\Music\video.mp4" />
-    <None Include="wwwroot\Music\wii.mp3" />
-  </ItemGroup>
-
 
 
 </Project>

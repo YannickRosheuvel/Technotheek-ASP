@@ -14,29 +14,20 @@ namespace TechnotheekWeb
 
     public class SongDAL : DatabaseHandler, ISongDAL
     {
-        private List<SongListBEL> songView = new List<SongListBEL>();
-        Song song = new Song();
+        private List<Song> songView = new List<Song>();
 
-        /// <summary>
-        /// Sees if there are any matching songs according to the given input and returns the list of songs
-        /// </summary>
-        /// <param name="bel"></param>
-        /// <returns></returns>
-        public List<SongListBEL> LookUpSong(Song bel)
+        // Searches for a song according to the users input
+        public List<Song> LookUpSong(Song bel)
         {
-            SongListBEL slb = new SongListBEL();
+            Song slb = new Song();
             DynamicParameters param = new DynamicParameters();
-            param.Add("@Name", bel.NameSong);
-            List<SongListBEL> list = con.Query<SongListBEL>("LookUpSong", param, commandType: CommandType.StoredProcedure).ToList();
+            param.Add("@Name", bel.Name);
+            List<Song> list = con.Query<Song>("LookUpSong", param, commandType: CommandType.StoredProcedure).ToList();
             songView = list;
-            return new List<SongListBEL>(songView);
+            return new List<Song>(songView);
         }
 
-        /// <summary>
-        /// Returns the path of the song based on the selected song in the listbox
-        /// </summary>
-        /// <param name="bel"></param>
-        /// <returns></returns>
+        //Gets the path of the song so it can be played
         public string GetPathOfSelectedSong(string selectedSong)
         {
             SqlCommand cmd = new SqlCommand("select * from [Song] where Name like @SelectedSong", con);
@@ -55,13 +46,10 @@ namespace TechnotheekWeb
             return SongLocation;
         }
 
-        /// <summary>
-        /// Gets all the songs from the database
-        /// </summary>
-        /// <returns></returns>
-        public List<SongListBEL> GetAllSongs()
+        //Gets all of the songs stored in the database
+        public List<Song> GetAllSongs()
         {
-            List<SongListBEL> songListBel = new List<SongListBEL>();
+            List<Song> songListBel = new List<Song>();
 
             SqlCommand cmd = new SqlCommand("select * from [Song]", con); 
             DataTable dt = new DataTable();
@@ -69,7 +57,7 @@ namespace TechnotheekWeb
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                SongListBEL song = new SongListBEL();
+                Song song = new Song();
                 song.Name = (reader["Name"].ToString());
                 songListBel.Add(song);
             }
@@ -78,11 +66,21 @@ namespace TechnotheekWeb
             return songListBel;
         }
 
+        //Gives the admin the control to add new songs and name them
         public void AddNewSong(Song bel)
         {
             SqlCommand cmd = new SqlCommand(@"INSERT INTO[dbo].[Song] (Name, SongLink) values (@insertNameSong , @insertSongPath)", con);
-            cmd.Parameters.AddWithValue("@insertNameSong", bel.NameSong);
-            cmd.Parameters.AddWithValue("@insertSongPath", bel.SongPath);
+            cmd.Parameters.AddWithValue("@insertNameSong", bel.Name);
+            cmd.Parameters.AddWithValue("@insertSongPath", bel.SongLink);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        public void AddNewPlaylist(string name)
+        {
+            SqlCommand cmd = new SqlCommand(@"INSERT INTO[dbo].[Playlist] (PlaylistName) values (@inserPlaylistName)", con);
+            cmd.Parameters.AddWithValue("@inserPlaylistName", name);
             con.Open();
             cmd.ExecuteNonQuery();
             con.Close();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TechnotheekWeb.Models
 {
-    public class SongListBEL
+    public class Song
     {
         public string Name { get; set; }
         public int Lenght { get; set; }

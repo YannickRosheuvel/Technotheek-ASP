@@ -43,10 +43,10 @@ namespace TechnotheekWeb.Controllers
             {
                 if (model.Song != null)
                 {
-                    song.NameSong = SongName;
+                    song.Name = SongName;
                     string UploadsFolder = Path.Combine(hostingEnviroment.WebRootPath, "Music");
-                    song.SongPath = Guid.NewGuid().ToString() + "_" + model.Song.FileName;
-                    string filePath = Path.Combine(UploadsFolder, song.SongPath);
+                    song.SongLink = Guid.NewGuid().ToString() + "_" + model.Song.FileName;
+                    string filePath = Path.Combine(UploadsFolder, song.SongLink);
                     model.Song.CopyTo(new FileStream(filePath, FileMode.Create));
                     songContainer.NewSongAdd(song);
                 }

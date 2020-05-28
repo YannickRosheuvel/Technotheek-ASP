@@ -1,27 +1,23 @@
-﻿@model IEnumerable<TechnotheekWeb.Models.SongListBEL>
+﻿@model IEnumerable<TechnotheekWeb.Models.Song>
 
 @{
     ViewData["Title"] = "Customer";
 }
 
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-
-    <h1>Customer</h1>
-
-<form asp-controller="Customer" asp-action="Search" method="post">
+<h1>Discover</h1>
+<form id="live-search" asp-controller="Customer" asp-action="Search" method="post">
     <div class="form-group">
         <label for="exampleInputEmail1">Search song</label>
-        <input type="text" name="NameSong" class="form-control">
+        <input type="text" id="filter" name="NameSong" class="form-control">
         <small id="Found" name="SongsFound" class="form-text text-muted"></small>
     </div>
-    <button type="submit" class="btn btn-primary">Search</button>
+    <span id="filter-count"></span>
 </form>
 
 <partial name="_SongPlayPartial" />
 
-<form asp-controller="Customer" asp-action="Play">
-    <table class="table">
+<form>
+    <table id="frank" class="table">
         <thead>
             <tr>
                 <th>
@@ -39,9 +35,8 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        <button type="submit" class="btn btn-primary">Play</button> |
-                        @Html.ActionLink("Play", "Play", new { selectedSong = item.Name }, new { id = "MyLink" })
-
+                        <button type="submit" id="open" class="btn btn-primary">open</button>
+                        @Html.ActionLink("Play", "Play", new { selectedSong = item.Name })
                     </td>
                 </tr>
             }
@@ -50,27 +45,81 @@
 
 
 </form>
-}
 
-@*<video id="videoplayer" scr="@Url.Content("~/Music/video.mp4")" controls width="450" height="200" />*@
+@*<button type="submit" id="open" class="btn btn-primary">open</button>*@
 
+<div class="container">
+    <div class="modal fade" tabindex="-1" id="loginModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Select Playlist</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        ×
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary button button4">Add</button>
+                    <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-@*@section scripts{
-        <script>
-            $("#MyLink").click(function(e){
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
-        e.preventDefault();
-        $.ajax({
+@section scripts{
+    <script>
 
-            url:$(this).attr("href"),
-            success: function(){
-            alert("Value Added");
-            }
+        $(document).ready(function () {
+            $("#filter").keyup(function () {
 
+                // Retrieve the input field text and reset the count to zero
+                var filter = $(this).val(), count = 0;
+
+                // Loop through the comment list
+                $("tbody tr").each(function () {
+
+                    // If the list item does not contain the text phrase fade it out
+                    if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                        $(this).fadeOut();
+
+                        // Show the list item if the phrase matches and increase the count by 1
+                    } else {
+                        $(this).show();
+                        count++;
+                    }
+                });
+
+                // Update the count
+                var numberItems = count;
+                $("#filter-count").text("Number of Songs = " + count);
+            });
         });
 
-    });
-        </script>*@
+    </script>
+
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+        $("#open").click(function () {
+            $("#loginModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+    </script>
+}
 
 
 

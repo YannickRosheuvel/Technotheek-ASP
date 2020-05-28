@@ -22,7 +22,7 @@ namespace TechnotheekWeb.Containers
         //    return songDAL.SearchSong(bel);
         //}
 
-        public List<SongListBEL> ReturnAllSongs()
+        public List<Song> ReturnAllSongs()
         {
             return songDAL.GetAllSongs();
         }
@@ -33,7 +33,7 @@ namespace TechnotheekWeb.Containers
             return songDAL.GetPathOfSelectedSong(selectedSong);
         }
 
-        public List<SongListBEL> SearchSong(Song sb)
+        public List<Song> SearchSong(Song sb)
         {
             return songDAL.LookUpSong(sb);
         }
@@ -46,5 +46,10 @@ namespace TechnotheekWeb.Containers
         //{
         //    return songDAL.CheckForResult(sb);
         //}
+
+        public void MakeNewPlaylist(string name)
+        {
+            songDAL.AddNewPlaylist(name);
+        }
     }
 }

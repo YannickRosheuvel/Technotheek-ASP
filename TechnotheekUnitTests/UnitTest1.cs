@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Technotheek.net_Core.ViewModels;
 using Technotheek.Tests;
 using TechnotheekWeb.Containers;
 using TechnotheekWeb.Models;
@@ -17,7 +18,7 @@ namespace TechnotheekUnitTests
             SongContainer songContainer = new SongContainer(iSongMock);
 
             songContainer.SearchSong(song);
-            var actual = song.NameSong;
+            var actual = song.Name;
 
             Assert.AreEqual(expected, actual);
 
@@ -25,7 +26,7 @@ namespace TechnotheekUnitTests
         [TestMethod]
         public void See_If_Returned_List_Is_Correct()
         {
-            Song song = new Song();
+            SongCreateViewModel song = new SongCreateViewModel();
             SongMock iSongMock = new SongMock();
             SongContainer sc = new SongContainer(iSongMock);
 
@@ -71,7 +72,7 @@ namespace TechnotheekUnitTests
         {
 
             SongMock iSongMock = new SongMock();
-            Song song = new Song();
+            SongCreateViewModel song = new SongCreateViewModel();
             SongContainer songContainer = new SongContainer(iSongMock);
 
             var actual = songContainer.GetSelectedSongPath("hey");

@@ -11,9 +11,5 @@ namespace TechnotheekWeb.Interfaces
     {
         void CUD(string query);
         bool TestConnection();
-        void OpenConnectionToDB();
-        void CloseConnectionToDB();
-        SqlConnection GetCon();
-        void ClearTable();
     }
 }

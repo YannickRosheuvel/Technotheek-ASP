@@ -74,25 +74,6 @@ namespace TechnotheekWeb
             return open;
         }
 
-        public void OpenConnectionToDB()
-        {
-            con.Open();
-        }
-
-        public void CloseConnectionToDB()
-        {
-            con.Close();
-        }
-
-        public SqlConnection GetCon()
-        {
-            return con;
-        }
-
-        public void ClearTable()
-        {
-            table.Clear();
-        }
     }
 }
 

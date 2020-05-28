@@ -10,41 +10,41 @@ namespace Technotheek.Tests
 {
     public class SongMock : ISongDAL
     {
-        public List<SongListBEL> songListBel = new List<SongListBEL>();
-        List<SongListBEL> mockList = new List<SongListBEL>
+        public List<Song> songListBel = new List<Song>();
+        List<Song> mockList = new List<Song>
         {
-            new SongListBEL
+            new Song
             {
                 Name = "hey", SongLink = "1"
             },
-            new SongListBEL
+            new Song
             {
                 Name = "Darkness", SongLink = "2"
             },
-            new SongListBEL
+            new Song
             {
                 Name = "I want to be a hippy", SongLink = "3"
             },
-            new SongListBEL
+            new Song
             {
                 Name = "90's Rave", SongLink = "4"
             }
 
         };
 
-        public List<SongListBEL> ReturSongListBEL()
+        public List<Song> ReturSongListBEL()
         {
-            return new List<SongListBEL>(mockList);
+            return new List<Song>(mockList);
         }
 
-        public List<SongListBEL> GetAllSongs()
+        public List<Song> GetAllSongs()
         {
-            return new List<SongListBEL>(mockList);
+            return new List<Song>(mockList);
         }
 
         public void AddNewSong(Song bel)
         {
-            mockList.Add(new SongListBEL { Name = "hoi", SongLink = "5" });
+            mockList.Add(new Song { Name = "hoi", SongLink = "5" });
         }
 
         public string GetPathOfSelectedSong(string songName)
@@ -59,16 +59,16 @@ namespace Technotheek.Tests
             return "";
         }
 
-        public List<SongListBEL> LookUpSong(Song bel)
+        public List<Song> LookUpSong(Song bel)
         {
             for (int i = 0; i < mockList.Count; i++)
             {
                 if (mockList[i].Name == "hey")
                 {
-                    bel.NameSong = mockList[i].Name;
+                    bel.Name = mockList[i].Name;
                 }
             }
-            return new List<SongListBEL>();
+            return new List<Song>();
         }
 
     }

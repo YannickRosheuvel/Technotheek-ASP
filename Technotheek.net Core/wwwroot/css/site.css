@@ -59,9 +59,25 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-image: url('../images/technoui2.jpeg');
+    background-size: cover;
+    margin: auto;
+    background-position: center;
+    background-repeat: no-repeat;
 }
+
+.masterform {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-image: url('../images/technoui2.jpeg');
+    background-size: cover;
+    margin: auto;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

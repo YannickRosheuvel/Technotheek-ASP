@@ -14,11 +14,7 @@ namespace TechnotheekWeb.DAL
     {
         User user = new User();
 
-        /// <summary>
-        /// sees whether or not the user is in the database and gives messages based on that.
-        /// </summary>
-        /// <param name="bel"></param>
-        /// <returns></returns>
+        //Logs in the user
         public bool Login(Login login, string Email, string Password, int userID)
         {
             con.Open();
@@ -58,10 +54,11 @@ namespace TechnotheekWeb.DAL
             return login.AdminOrCostumer = true;
         }
 
+        // Sets the data for the user in the current session
         public void GetUserData(int userID)
         {
 
-            SqlCommand getUserData = new SqlCommand("SELECT * FROM [User] WHERE ID = @User_ID", GetCon());
+            SqlCommand getUserData = new SqlCommand("SELECT * FROM [User] WHERE ID = @User_ID", con);
             getUserData.Parameters.AddWithValue("User_ID", userID);
 
             dataReader = getUserData.ExecuteReader();
@@ -80,10 +77,7 @@ namespace TechnotheekWeb.DAL
 
         }
 
-        /// <summary>
-        /// Imports the User data into the database
-        /// </summary>
-        /// <param name="bel"></param>
+        // Registration for the user
         public void Registration(User bel, string Username, string Password, int Contact, string FirstName, string LastName, string Street, int StreetNmr, string City, int userID)
         {
 
@@ -111,7 +105,6 @@ namespace TechnotheekWeb.DAL
             cmd.Parameters.AddWithValue("@ID", userID);
 
             con.Open();
-            //GetUserData(userID);
             cmd.ExecuteNonQuery();
             con.Close();
         }
