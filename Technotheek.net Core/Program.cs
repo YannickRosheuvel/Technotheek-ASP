@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace Technotheek.net_Core
 {
     public class Program
-    {
+    {//d
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
