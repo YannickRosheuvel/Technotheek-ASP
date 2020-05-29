@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NAudio.Wave;
@@ -19,18 +21,20 @@ namespace TechnotheekWeb.Controllers
         SongContainer songContainer = new SongContainer(songDAL);
         SongViewModel songViewModel = new SongViewModel();
         Song song = new Song();
+        User user = new User();
         // GET: Costumer
+
+
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         [HttpGet]
         public ViewResult Customer()
         {
             var model = songContainer.ReturnAllSongs();
             return View("Customer", model);
-        }
-
-        public IActionResult Popup1()
-        {
-            return PartialView();
         }
 
         [HttpPost]

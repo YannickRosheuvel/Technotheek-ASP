@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Technotheek.net_Core.Models;
@@ -25,25 +26,18 @@ namespace TechnotheekWeb.Controllers
         SongCreateViewModel song = new SongCreateViewModel();
         // GET: Account
 
+
+
         [HttpGet]
         public ActionResult Login()
         {
+            HttpContext.Session.GetString("ID");
             return View();
         }
 
         [HttpPost]
         public ActionResult RegisterUser(string ErrorRegistration, string Email, string FirstName, string LastName, string Password, string RepeatPassword, string City, string Street, int StreetNumber, int PhoneNumber, int userID)
         {
-            //geeft de ingevoerde waardes door aan de Model
-            register.City = City;
-            register.Contact = PhoneNumber;
-            register.FirstName = FirstName;
-            register.LastName = LastName;
-            register.Password = Password;
-            register.Street = Street;
-            register.Username = Email;
-            register.StreetNmr = StreetNumber;
-
             //try add User voegt de waardes toe aan de database
             try
             {
@@ -61,6 +55,7 @@ namespace TechnotheekWeb.Controllers
         [HttpGet]
         public ActionResult ForgotPassword()
         {
+            HttpContext.Session.GetString("ID");
             return View();
         }
 
@@ -73,15 +68,36 @@ namespace TechnotheekWeb.Controllers
         [HttpPost]
         public ActionResult Verify(string Email, string Password, int userID)
         {
-            userDAL.Login(login, Email, Password, userID);
+            User user = new User();
+
+            userContainer.LoginUser(login, Email, Password, userID);
+
             if (login.AdminOrNot == true)
             {
+                user = userContainer.LoginUser(login, Email, Password, userID);
+
+                HttpContext.Session.SetString("ID", user.ID.ToString());
+                HttpContext.Session.SetString("FirstName", user.FirstName);
+                HttpContext.Session.SetString("LastName", user.LastName);
+                HttpContext.Session.SetString("Email", user.Username);
+                HttpContext.Session.SetString("Street", user.Street);
+                HttpContext.Session.SetString("StreetNmr", user.StreetNmr.ToString());
+
                 return RedirectToAction("Admin", "Admin");
             }
             if(login.AdminOrNot == false && login.AdminOrCostumer == false)
             {
+                user = userContainer.LoginUser(login, Email, Password, userID);
+
+                HttpContext.Session.SetString("ID", user.ID.ToString());
+                HttpContext.Session.SetString("FirstName", user.FirstName);
+                HttpContext.Session.SetString("LastName", user.LastName);
+                HttpContext.Session.SetString("Email", user.Username);
+                HttpContext.Session.SetString("Street", user.Street);
+                HttpContext.Session.SetString("StreetNmr", user.StreetNmr.ToString());
+
                 var model = songContainer.ReturnAllSongs();
-                return RedirectToAction("Customer", "Customer", model);
+                return RedirectToAction("Index", "Home", model);
             }
             else
             {

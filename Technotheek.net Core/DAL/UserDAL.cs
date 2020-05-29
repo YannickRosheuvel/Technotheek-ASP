@@ -15,7 +15,7 @@ namespace TechnotheekWeb.DAL
         User user = new User();
 
         //Logs in the user
-        public bool Login(Login login, string Email, string Password, int userID)
+        public User Login(Login login, string Email, string Password, int userID)
         {
             con.Open();
             SqlCommand cmd = new SqlCommand("select * from [User] where Gebruikersnaam= @Username and Wachtwoord= @Password", con);
@@ -33,16 +33,18 @@ namespace TechnotheekWeb.DAL
                     if (dt.Rows[i]["FunctionType"].ToString() == "Admin")
                     {
                         user.ID = Convert.ToInt32(dt.Rows[i]["ID"]);
-                        GetUserData(user.ID);
+                        login.AdminOrNot = true;
+                        int ID = Int32.Parse(dt.Rows[i]["ID"].ToString());
                         con.Close();
-                        return login.AdminOrNot = true;
+                        return GetUserData(ID);
                     }
                     else
                     {
                         user.ID = Convert.ToInt32(dt.Rows[i]["ID"]);
-                        GetUserData(user.ID);
+                        login.AdminOrNot = false;
+                        int ID = Int32.Parse(dt.Rows[i]["ID"].ToString());
                         con.Close();
-                        return login.AdminOrNot = false;
+                        return GetUserData(ID);
                     }
                 }
             }
@@ -51,21 +53,23 @@ namespace TechnotheekWeb.DAL
                 login.Message = "Username or Password incorrect.";
                 con.Close();
             }
-            return login.AdminOrCostumer = true;
+            return GetUserData(userID);
         }
 
         // Sets the data for the user in the current session
-        public void GetUserData(int userID)
+        public User GetUserData(int userID)
         {
+            User user = new User();
 
             SqlCommand getUserData = new SqlCommand("SELECT * FROM [User] WHERE ID = @User_ID", con);
             getUserData.Parameters.AddWithValue("User_ID", userID);
 
+            con.Open();
             dataReader = getUserData.ExecuteReader();
 
             if (dataReader.Read())
             {
-                user.FirstName = dataReader["Gebruikersnaam"].ToString();
+                user.Username = dataReader["Gebruikersnaam"].ToString();
                 user.Password = dataReader["Wachtwoord"].ToString();
                 user.Contact = Convert.ToInt32(dataReader["Contact"]);
                 user.FirstName = dataReader["FirstName"].ToString();
@@ -73,9 +77,13 @@ namespace TechnotheekWeb.DAL
                 user.Street = dataReader["Street"].ToString();
                 user.StreetNmr = Convert.ToInt32(dataReader["StreetNmr"]);
                 user.City = dataReader["City"].ToString();
+                user.ID = Int32.Parse(dataReader["ID"].ToString());
             }
-
+            con.Close();
+            return user;
         }
+
+
 
         // Registration for the user
         public void Registration(User bel, string Username, string Password, int Contact, string FirstName, string LastName, string Street, int StreetNmr, string City, int userID)

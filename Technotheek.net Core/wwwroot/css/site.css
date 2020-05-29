@@ -9,7 +9,7 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #FFFFFF;
 }
 
 .btn-primary {
@@ -59,7 +59,7 @@ html {
 }
 
 body {
-    /* Margin bottom by footer height */
+     /*Margin bottom by footer height*/ 
     margin-bottom: 60px;
     background-image: url('../images/technoui2.jpeg');
     background-size: cover;
@@ -68,8 +68,12 @@ body {
     background-repeat: no-repeat;
 }
 
+.LoginForm {
+    width: 340px;
+}
+
 .masterform {
-    /* Margin bottom by footer height */
+     /*Margin bottom by footer height*/ 
     margin-bottom: 60px;
     background-image: url('../images/technoui2.jpeg');
     background-size: cover;
@@ -79,9 +83,9 @@ body {
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }

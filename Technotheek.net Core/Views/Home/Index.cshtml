@@ -5,4 +5,11 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>This is Technotheek lets get started</p>
+    <p>    @ViewBag.userID</p>
 </div>
+
+
+@{ if (ViewBag.ID == null) {
+<partial name="_LoginPartial" />
+        }
+    }

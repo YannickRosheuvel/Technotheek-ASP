@@ -23,14 +23,14 @@ namespace TechnotheekWeb.Containers
             userDAL.Registration(register, Username, Password, Contact, FirstName, LastName, Street, StreetNmr, City, userID);
         }
 
-        public bool LoginUser(Login login, string Email, string Password, int userID)
+        public User LoginUser(Login login, string Email, string Password, int userID)
         {
             return userDAL.Login(login, Email, Password, userID);
         }
 
-        public void RetrieveUserData(int userID)
+        public User RetrieveUserData(int userID)
         {
-            userDAL.GetUserData(userID);
+            return userDAL.GetUserData(userID);
         }
     }
 }
