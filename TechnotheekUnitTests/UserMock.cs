@@ -16,35 +16,53 @@ namespace TechnotheekUnitTests
             {
                 Username = "Yoda",
                 Password = "123",
-                ID = 1
+                ID = 1,
+                FunctionType = "Admin"
             }
         };
 
 
-        public void GetUserData(int userID)
+        public User GetUserData(int userID)
         {
             for (int i = 0; i < userList.Count; i++)
             {
                 if (userList[i].ID == userID)
                 {
                     user.Username = userList[i].Username;
+                    return user;
                 }
             }
+            return new User();
         }
 
-        public bool Login(Login bel, string Email, string Password, int userID)
+        public void GetUserPicture(User user, int userID)
         {
-            user.Username = "Yoda";
-            user.Password = "123";
+            throw new NotImplementedException();
+        }
+
+        public void InsertImage(User user, int userID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User Login(Login login, string Email, string Password, int userID)
+        {
 
             for (int i = 0; i < userList.Count; i++)
             {
-                if (userList[i].Password == user.Password && userList[i].Username == user.Username)
+                if (userList[i].Password == Password && userList[i].Username == Email)
                 {
-                    return true;
+                    if(userList[i].FunctionType == "Admin")
+                    {
+                        return userList[i];
+                    }
+                    if (userList[i].FunctionType == "Customer")
+                    {
+                        return userList[i];
+                    }
                 }
             }
-            return false;
+            return user;
         }
 
 

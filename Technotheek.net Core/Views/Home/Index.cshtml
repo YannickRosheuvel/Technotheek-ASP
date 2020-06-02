@@ -2,14 +2,26 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>This is Technotheek lets get started</p>
-    <p>    @ViewBag.userID</p>
-</div>
+@{
+    var currentUser = ViewBag.user as TechnotheekWeb.Models.User;
+}
 
 
-@{ if (ViewBag.ID == null) {
-<partial name="_LoginPartial" />
-        }
-    }
+@if (ViewBag.user == null)
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>This is Technotheek lets get started</p>
+        <p>    @ViewBag.userID</p>
+    </div>
+
+    <partial name="_LoginPartial" />
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome Back, @currentUser.FirstName</h1>
+        <p>This is Technotheek lets get started</p>
+    </div>
+}
+

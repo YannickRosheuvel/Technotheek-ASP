@@ -33,7 +33,7 @@ namespace TechnotheekUnitTests
 
             var actual = sc.ReturnAllSongs().Count;
 
-            var expected = iSongMock.ReturSongListBEL().Count;
+            var expected = iSongMock.ReturSongList().Count;
 
             Assert.AreEqual(expected, actual);
         }
@@ -89,10 +89,10 @@ namespace TechnotheekUnitTests
             UserMock userMock = new UserMock();
             UserContainer userContainer = new UserContainer(userMock);
 
-            userContainer.RetrieveUserData(1);
+            var actual = userContainer.RetrieveUserData(1);
             var expected = "Yoda";
 
-            Assert.AreEqual(expected, userMock.user.Username);
+            Assert.AreEqual(expected, actual.Username);
         }
 
         [TestMethod]
@@ -104,9 +104,9 @@ namespace TechnotheekUnitTests
             UserContainer userContainer = new UserContainer(userMock);
             Login login = new Login();
 
-            var actual = userContainer.LoginUser(login, "Yoda", "123", 0);
+            var actual = userContainer.LoginUser(login, "Yoda", "123", 1);
 
-            Assert.IsTrue(actual);
+            Assert.AreEqual("Yoda"  , actual.Username);
         }
 
         [TestMethod]
@@ -121,6 +121,34 @@ namespace TechnotheekUnitTests
             var expected = "Yoda";
 
             Assert.AreEqual(expected, userMock.user.Username);
+        }
+
+        [TestMethod]
+        public void See_If_Song_Is_Added()
+        {
+
+            SongMock iSongMock = new SongMock();
+            Song song = new Song();
+            SongContainer songContainer = new SongContainer(iSongMock);
+
+            songContainer.NewSongAdd(song);
+
+            var actual = iSongMock.ReturnList();
+
+            Assert.AreEqual(1, actual.Count) ;
+        }
+
+        [TestMethod]
+        public void See_If_Returns_Playlists()
+        {
+
+            SongMock iSongMock = new SongMock();
+            Song song = new Song();
+            SongContainer songContainer = new SongContainer(iSongMock);
+
+            var actual = songContainer.GetPlaylists(10);
+
+            Assert.IsNotNull(actual);
         }
     }
 }

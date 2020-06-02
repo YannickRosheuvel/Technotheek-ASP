@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Technotheek.net_Core.Models;
 using TechnotheekWeb.Interfaces;
 using TechnotheekWeb.Models;
 
@@ -47,9 +48,14 @@ namespace TechnotheekWeb.Containers
         //    return songDAL.CheckForResult(sb);
         //}
 
-        public void MakeNewPlaylist(string name)
+        public void MakeNewPlaylist(string name, int ID)
         {
-            songDAL.AddNewPlaylist(name);
+            songDAL.AddNewPlaylist(name, ID);
+        }
+
+        public List<Playlist> GetPlaylists(int ID)
+        {
+           return songDAL.RetrievePlaylists(ID);
         }
     }
 }

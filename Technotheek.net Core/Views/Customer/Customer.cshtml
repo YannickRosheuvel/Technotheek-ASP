@@ -14,8 +14,6 @@
     <span id="filter-count"></span>
 </form>
 
-@*l*@
-
 <partial name="_SongPlayPartial" />
 
 <form>
@@ -37,7 +35,11 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        <button type="submit" id="open" class="btn btn-primary">open</button>
+                        @*<button type="submit" id="open" class="btn btn-primary">Add to playlist</button>*@
+                        @*<a onclick="open" id="open" data-id="open">open</a>*@
+                        <button data-url="open">
+                            Run Script
+                        </button>
                         @Html.ActionLink("Play", "Play", new { selectedSong = item.Name })
                     </td>
                 </tr>
@@ -48,7 +50,7 @@
 
 </form>
 
-@*<button type="submit" id="open" class="btn btn-primary">open</button>*@
+<button type="submit" id="open" class="btn btn-primary">open</button>
 
 <div class="container">
     <div class="modal fade" tabindex="-1" id="loginModal"
@@ -63,6 +65,7 @@
                 </div>
                 <div class="modal-body">
                     <form>
+                        playlists
                     </form>
                 </div>
                 <div class="modal-footer">

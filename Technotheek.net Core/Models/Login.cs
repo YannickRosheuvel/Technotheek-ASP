@@ -12,7 +12,7 @@ namespace TechnotheekWeb.Models
     public class Login
     {
         public string Message { get; set; }
-        public bool AdminOrNot { get; set; }
+        public bool IsAdmin { get; set; }
         public bool AdminOrCostumer { get; set; }
     }
 }

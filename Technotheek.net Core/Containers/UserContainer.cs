@@ -32,5 +32,15 @@ namespace TechnotheekWeb.Containers
         {
             return userDAL.GetUserData(userID);
         }
+
+        public void ReturnInsertImage(User user, int userID)
+        {
+            userDAL.InsertImage(user, userID);
+        }
+
+        public string GetPictureUser(User user, int userID)
+        {
+            return userDAL.GetUserPicture(user, userID);
+        }
     }
 }

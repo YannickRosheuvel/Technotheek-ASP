@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Technotheek.net_Core.Models;
 using TechnotheekWeb.Interfaces;
 using TechnotheekWeb.Models;
 
@@ -11,6 +12,21 @@ namespace Technotheek.Tests
     public class SongMock : ISongDAL
     {
         public List<Song> songListBel = new List<Song>();
+
+        List<Playlist> playlist = new List<Playlist>
+        {
+            new Playlist
+            {
+                Name = "Yoda"
+            }
+        };
+
+        public List<Playlist> ReturnList()
+        {
+            return new List<Playlist>(playlist);
+        }
+
+
         List<Song> mockList = new List<Song>
         {
             new Song
@@ -32,7 +48,7 @@ namespace Technotheek.Tests
 
         };
 
-        public List<Song> ReturSongListBEL()
+        public List<Song> ReturSongList()
         {
             return new List<Song>(mockList);
         }
@@ -71,5 +87,14 @@ namespace Technotheek.Tests
             return new List<Song>();
         }
 
+        public void AddNewPlaylist(string name, int ID)
+        {
+            playlist.Add(new Playlist { Name = "Yoda" });
+        }
+
+        public List<Playlist> RetrievePlaylists(int ID)
+        {
+            return new List<Playlist>(playlist);
+        }
     }
 }

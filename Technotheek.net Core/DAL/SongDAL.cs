@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using TechnotheekWeb.Models;
 using TechnotheekWeb.Interfaces;
 using Dapper;
+using Technotheek.net_Core.Models;
 
 namespace TechnotheekWeb
 {
@@ -49,7 +50,7 @@ namespace TechnotheekWeb
         //Gets all of the songs stored in the database
         public List<Song> GetAllSongs()
         {
-            List<Song> songListBel = new List<Song>();
+            List<Song> Song = new List<Song>();
 
             SqlCommand cmd = new SqlCommand("select * from [Song]", con); 
             DataTable dt = new DataTable();
@@ -59,11 +60,11 @@ namespace TechnotheekWeb
             {
                 Song song = new Song();
                 song.Name = (reader["Name"].ToString());
-                songListBel.Add(song);
+                Song.Add(song);
             }
             con.Close();
 
-            return songListBel;
+            return Song;
         }
 
         //Gives the admin the control to add new songs and name them
@@ -77,13 +78,34 @@ namespace TechnotheekWeb
             con.Close();
         }
 
-        public void AddNewPlaylist(string name)
+        public void AddNewPlaylist(string name, int ID)
         {
-            SqlCommand cmd = new SqlCommand(@"INSERT INTO[dbo].[Playlist] (PlaylistName) values (@inserPlaylistName)", con);
+            SqlCommand cmd = new SqlCommand(@"INSERT INTO[dbo].[Playlist] (PlaylistName, userID) values (@inserPlaylistName, @userID)", con);
             cmd.Parameters.AddWithValue("@inserPlaylistName", name);
+            cmd.Parameters.AddWithValue("@userID", ID);
             con.Open();
             cmd.ExecuteNonQuery();
             con.Close();
+        }
+
+        public List<Playlist> RetrievePlaylists(int ID)
+        {
+            List<Playlist> Playlist = new List<Playlist>();
+
+            SqlCommand cmd = new SqlCommand("select * from [dbo].[Playlist] WHERE userID = @ID", con);
+            cmd.Parameters.AddWithValue("@ID", ID);
+            DataTable dt = new DataTable();
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Playlist playlist = new Playlist();
+                playlist.Name = (reader["PlaylistName"].ToString());
+                Playlist.Add(playlist);
+            }
+            con.Close();
+
+            return Playlist;
         }
     }
 }

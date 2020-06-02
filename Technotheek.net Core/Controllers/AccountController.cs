@@ -18,15 +18,10 @@ namespace TechnotheekWeb.Controllers
     {
         static UserDAL userDAL = new UserDAL();
         Login login = new Login();
-        User register = new User();
+        User user = new User();
         UserContainer userContainer = new UserContainer(userDAL);
         static SongDAL songDAL = new SongDAL();
-        SongContainer songContainer = new SongContainer(songDAL);
-        CustomerController customerController = new CustomerController();
-        SongCreateViewModel song = new SongCreateViewModel();
         // GET: Account
-
-
 
         [HttpGet]
         public ActionResult Login()
@@ -41,7 +36,7 @@ namespace TechnotheekWeb.Controllers
             //try add User voegt de waardes toe aan de database
             try
             {
-                userContainer.AddUser(register, Email, Password, PhoneNumber, FirstName, LastName, Street, StreetNumber, City, userID);
+                userContainer.AddUser(user, Email, Password, PhoneNumber, FirstName, LastName, Street, StreetNumber, City, userID);
                 //pop up conformation
                 return RedirectToAction("Login", "Account");
             }
@@ -72,7 +67,7 @@ namespace TechnotheekWeb.Controllers
 
             userContainer.LoginUser(login, Email, Password, userID);
 
-            if (login.AdminOrNot == true)
+            if (login.IsAdmin == true)
             {
                 user = userContainer.LoginUser(login, Email, Password, userID);
 
@@ -82,10 +77,13 @@ namespace TechnotheekWeb.Controllers
                 HttpContext.Session.SetString("Email", user.Username);
                 HttpContext.Session.SetString("Street", user.Street);
                 HttpContext.Session.SetString("StreetNmr", user.StreetNmr.ToString());
+                HttpContext.Session.SetString("City", user.City.ToString());
+                HttpContext.Session.SetString("Contact", user.Contact.ToString());
+                HttpContext.Session.SetString("FunctionType", user.FunctionType.ToString());
 
-                return RedirectToAction("Admin", "Admin");
+                return RedirectToAction("Admin", "Admin", user);
             }
-            if(login.AdminOrNot == false && login.AdminOrCostumer == false)
+            if(login.IsAdmin == false && login.AdminOrCostumer == false)
             {
                 user = userContainer.LoginUser(login, Email, Password, userID);
 
@@ -95,15 +93,16 @@ namespace TechnotheekWeb.Controllers
                 HttpContext.Session.SetString("Email", user.Username);
                 HttpContext.Session.SetString("Street", user.Street);
                 HttpContext.Session.SetString("StreetNmr", user.StreetNmr.ToString());
+                HttpContext.Session.SetString("City", user.City.ToString());
+                HttpContext.Session.SetString("Contact", user.Contact.ToString());
+                HttpContext.Session.SetString("FunctionType", user.FunctionType.ToString());
 
-                var model = songContainer.ReturnAllSongs();
-                return RedirectToAction("Index", "Home", model);
+                return RedirectToAction("Index", "Customer", user);
             }
             else
             {
                 return View("Error");
             }
         }
-
     }
 }

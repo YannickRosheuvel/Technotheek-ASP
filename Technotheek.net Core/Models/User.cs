@@ -21,5 +21,7 @@ namespace TechnotheekWeb.Models
         public int StreetNmr { get; set; }
         public string City { get; set; }
         public bool Succesfull { get; set; }
+        public string FunctionType { get; set; }
+        public string PictureLocation { get; set; }
     }
 }

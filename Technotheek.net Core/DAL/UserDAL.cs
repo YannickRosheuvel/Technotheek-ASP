@@ -33,7 +33,7 @@ namespace TechnotheekWeb.DAL
                     if (dt.Rows[i]["FunctionType"].ToString() == "Admin")
                     {
                         user.ID = Convert.ToInt32(dt.Rows[i]["ID"]);
-                        login.AdminOrNot = true;
+                        login.IsAdmin = true;
                         int ID = Int32.Parse(dt.Rows[i]["ID"].ToString());
                         con.Close();
                         return GetUserData(ID);
@@ -41,7 +41,7 @@ namespace TechnotheekWeb.DAL
                     else
                     {
                         user.ID = Convert.ToInt32(dt.Rows[i]["ID"]);
-                        login.AdminOrNot = false;
+                        login.IsAdmin = false;
                         int ID = Int32.Parse(dt.Rows[i]["ID"].ToString());
                         con.Close();
                         return GetUserData(ID);
@@ -78,6 +78,7 @@ namespace TechnotheekWeb.DAL
                 user.StreetNmr = Convert.ToInt32(dataReader["StreetNmr"]);
                 user.City = dataReader["City"].ToString();
                 user.ID = Int32.Parse(dataReader["ID"].ToString());
+                user.FunctionType = (dataReader["FunctionType"].ToString());
             }
             con.Close();
             return user;
@@ -117,5 +118,34 @@ namespace TechnotheekWeb.DAL
             con.Close();
         }
 
+        public void InsertImage(User user, int userID)
+        { /*INSERT INTO[dbo].[User] (PictureLocation) values(@insertSongPath) WHERE ID values @userID*/
+            SqlCommand cmd = new SqlCommand(@"UPDATE [dbo].[User] SET PictureLocation = @insertSongPath WHERE ID = @userID", con);
+            cmd.Parameters.AddWithValue("@insertSongPath", user.PictureLocation);
+            cmd.Parameters.AddWithValue("@userID", userID);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+
+        public string GetUserPicture(User user, int userID)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT PictureLocation FROM [User] WHERE ID = @User_ID", con);
+            cmd.Parameters.AddWithValue("@User_ID", userID);
+            con.Open();
+
+            dataReader = cmd.ExecuteReader();
+
+            if (dataReader.Read())
+            {
+                var PicturePath = dataReader["PictureLocation"].ToString();
+                con.Close();
+                return PicturePath;
+            }
+            con.Close();
+            return "";
+        }
     }
+
 }
+

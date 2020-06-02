@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Technotheek.net Core\Technotheek.net Core.csproj" />
+    <ProjectReference Include="..\Technotheek.net Core\TEchnotheekWebApp.csproj" />
   </ItemGroup>
 
 </Project>

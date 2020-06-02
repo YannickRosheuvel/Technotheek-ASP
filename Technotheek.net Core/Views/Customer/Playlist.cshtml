@@ -1,9 +1,11 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@{
+    var userPlaylists = ViewBag.Playlist as Technotheek.net_Core.Models.Playlist;
+}
 
 
 <button type="submit" id="open" class="btn btn-primary">Create new Playlist</button>
+
+<partial name="_PlaylistPartial" />
 
 <div class="container">
     <div class="modal fade" tabindex="-1" id="loginModal"
@@ -26,7 +28,6 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary button button4">Sign</button>
                     <button type="button" id="btnHideModal" class="btn btn-primary button button4">
                         Hide
                     </button>

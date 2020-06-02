@@ -21,8 +21,6 @@ namespace Technotheek.net_Core.Controllers
         private readonly ILogger<HomeController> _logger;
         User user = new User();
 
-        HttpContext.Session.GetString("ID");
-
         static User currentUser;
 
         public HomeController(ILogger<HomeController> logger)
@@ -32,25 +30,28 @@ namespace Technotheek.net_Core.Controllers
 
         const string SessionName = "No name found";
 
-        public IActionResult Index()
+        public IActionResult Index(User user)
         {
-            return View();
+            if (HttpContext.Session.GetString("ID") != null)
+            {
+                currentUser = user;
+                ViewBag.User = user;
+                return View();
+            }
+            else
+            {
+                return View();
+            }
+
         }
 
         public IActionResult UserPage()
         {
-            User user = new User();
 
             if (HttpContext.Session.GetString("ID") != null)
             {
-                currentUser = user;
-
-                ViewBag.ID = HttpContext.Session.GetString("ID");
-                ViewBag.FirstName = HttpContext.Session.GetString("FirstName");
-                ViewBag.LastName = HttpContext.Session.GetString("LastName");
-                ViewBag.Email = HttpContext.Session.GetString("Email");
-                ViewBag.Street = HttpContext.Session.GetString("Street");
-                ViewBag.StreetNmr = HttpContext.Session.GetString("StreetNmr");
+                ViewBag.Picture = userContainer.GetPictureUser(user, currentUser.ID);
+                ViewBag.User = currentUser;
 
                 return View();
             }

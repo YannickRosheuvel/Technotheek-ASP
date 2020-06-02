@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Technotheek.net_Core.Models;
@@ -20,6 +21,7 @@ namespace TechnotheekWeb.Controllers
         static SongDAL songDAL = new SongDAL();
         SongContainer songContainer = new SongContainer(songDAL);
 
+        static User currentAdmin;
         private readonly IWebHostEnvironment hostingEnviroment;
 
         public AdminController(IWebHostEnvironment hostingEnviroment)
@@ -29,10 +31,18 @@ namespace TechnotheekWeb.Controllers
 
         // GET: Admin
         [HttpGet]
-        public ActionResult Admin()
+        public ActionResult Admin(User user)
         {
-
-            return View("Admin");
+            if (HttpContext.Session.GetString("ID") != null)
+            {
+                currentAdmin = user;
+                ViewBag.User = user;
+                return View();
+            }
+            else
+            {
+                return View("Account", "Login");
+            }
         }
 
         [HttpPost]
