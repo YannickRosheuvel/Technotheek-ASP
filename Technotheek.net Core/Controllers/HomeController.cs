@@ -30,13 +30,24 @@ namespace Technotheek.net_Core.Controllers
 
         const string SessionName = "No name found";
 
+        //De user word mee gegeven met de Index en vervolgens in een static currentUser gestored zodat
+        //Zodat de info van de user ter alle tijden in de sessie toegangkelijk is.
+        //De CurrentUser Word alleen gezet als hij nog niet gezet is.
         public IActionResult Index(User user)
         {
             if (HttpContext.Session.GetString("ID") != null)
             {
-                currentUser = user;
-                ViewBag.User = user;
-                return View();
+                if(currentUser == null)
+                {
+                    currentUser = user;
+                    ViewBag.User = user;
+                    return View();
+                }
+                else
+                {
+                    ViewBag.User = currentUser;
+                    return View("Index");
+                }
             }
             else
             {
@@ -61,12 +72,7 @@ namespace Technotheek.net_Core.Controllers
             }
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

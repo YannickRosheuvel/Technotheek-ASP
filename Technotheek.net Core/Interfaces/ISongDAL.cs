@@ -16,8 +16,6 @@ namespace TechnotheekWeb.Interfaces
         string GetPathOfSelectedSong(string selectedSong);
         List<Song> GetAllSongs();
         List<Song> LookUpSong(Song bel);
-        void AddNewPlaylist(string name, int ID);
-        List<Playlist> RetrievePlaylists(int ID);
 
     }
 }

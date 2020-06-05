@@ -29,7 +29,6 @@ namespace TechnotheekWeb.Controllers
             this.hostingEnviroment = hostingEnviroment;
         }
 
-        // GET: Admin
         [HttpGet]
         public ActionResult Admin(User user)
         {
@@ -48,7 +47,6 @@ namespace TechnotheekWeb.Controllers
         [HttpPost]
         public IActionResult Upload(SongCreateViewModel model, string SongName)
         {
-            //kijkt of er wel een nummer is geselecteerd om een null reference exception te voorkomen
             if (ModelState.IsValid)
             {
                 if (model.Song != null)

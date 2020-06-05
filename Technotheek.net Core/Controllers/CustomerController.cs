@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NAudio.Wave;
+using Technotheek.net_Core.Containers;
+using Technotheek.net_Core.DAL;
 using Technotheek.net_Core.Models;
 using Technotheek.net_Core.ViewModels;
 using TechnotheekWeb.Containers;
@@ -23,8 +25,10 @@ namespace TechnotheekWeb.Controllers
     {
         static SongDAL songDAL = new SongDAL();
         static UserDAL userDAL = new UserDAL();
+        static PlaylistDAL playlistDAL = new PlaylistDAL();
         SongContainer songContainer = new SongContainer(songDAL);
         UserContainer userContainer = new UserContainer(userDAL);
+        PlaylistContainer playlistContainer = new PlaylistContainer(playlistDAL);
         SongViewModel songViewModel = new SongViewModel();
         Song song = new Song();
         User user = new User();
@@ -32,8 +36,11 @@ namespace TechnotheekWeb.Controllers
 
         static User currentUser;
 
+        static List<Song> currentSongs;
+
         private readonly IWebHostEnvironment hostingEnviroment;
 
+        //HostingEnviroment word gebruikt voor het storen van fotos
         public CustomerController(IWebHostEnvironment hostingEnviroment)
         {
             this.hostingEnviroment = hostingEnviroment;
@@ -46,12 +53,13 @@ namespace TechnotheekWeb.Controllers
             if (HttpContext.Session.GetString("ID") != null)
             {
                 ViewBag.User = currentUser;
-                return View("Customer", model);
+                ViewBag.Playlists = playlistContainer.GetPlaylists(currentUser.ID);
+                return View("Discover", model);
                 //return View();
             }
             else
             {
-                return View("Account", "Login");
+                return View("Login", "Account");
             }
         }
 
@@ -61,7 +69,7 @@ namespace TechnotheekWeb.Controllers
             song.Name = NameSong;
             var model = songContainer.SearchSong(song);
             songViewModel.SongsFound =  "Songs found: " + model.Count.ToString();
-            return View("Customer", model);
+            return View("Discover", model);
         }
 
         public ViewResult Play(string selectedSong)
@@ -74,28 +82,29 @@ namespace TechnotheekWeb.Controllers
         {
             if (HttpContext.Session.GetString("ID") != null)
             {
-                ViewBag.Playlists = songContainer.GetPlaylists(currentUser.ID);
+                ViewBag.Playlists = playlistContainer.GetPlaylists(currentUser.ID);
                 ViewBag.User = currentUser;
                 return View();
             }
             else
             {
-                return View("Account", "Login");
+                return View("Login", "Account");
             }
         }
 
         public IActionResult CreatePlaylist(string PlaylistName)
         {
-            songContainer.MakeNewPlaylist(PlaylistName, currentUser.ID);
+            playlistContainer.MakeNewPlaylist(PlaylistName, currentUser.ID);
             return RedirectToAction("Playlist", "Customer");
         }
 
         public ViewResult AddSongToPlaylist(string songToAdd)
         {
-
             return Customer();
         }
 
+        //De user word mee gegeven met de Index en vervolgens in een static currentUser gestored zodat
+        //Zodat de info van de user ter alle tijden in de sessie toegangkelijk is.
         public IActionResult Index(User user)
         {
             if (HttpContext.Session.GetString("ID") != null)
@@ -107,10 +116,11 @@ namespace TechnotheekWeb.Controllers
             }
             else
             {
-                return RedirectToAction("Account", "Login");
+                return RedirectToAction("Login", "Account");
             }
         }
 
+        //Zorgt voor het uploaden van  de profiel foto in een map en geeft de path mee aan de database
         [HttpPost]
         public IActionResult Upload(ProfilePictureViewModel model)
         {
@@ -127,6 +137,29 @@ namespace TechnotheekWeb.Controllers
                 }
             }
             return RedirectToAction("userPage" , "Home");
+        }
+
+        //Opent een playlist naar keuze met alle toebehorende nummers die daar in zitten
+        public IActionResult Open(string selectedPlaylist)
+        {
+            ViewBag.User = currentUser;
+            ViewBag.Playlist = selectedPlaylist;
+            var model = playlistContainer.RetrievePlaylistSongs(selectedPlaylist);
+            currentSongs = model;
+            return View("PlaylistSongs", model);
+        }
+
+        public ViewResult PlaySong(string selectedSong)
+        {
+            ViewBag.User = currentUser;
+            ViewBag.SelectedSong = songContainer.GetSelectedSongPath(selectedSong);
+            return View("PlaylistSongs", currentSongs);
+        }
+
+        public IActionResult Add(string selectedPlaylist)
+        {
+
+            return Customer();
         }
     }
 }

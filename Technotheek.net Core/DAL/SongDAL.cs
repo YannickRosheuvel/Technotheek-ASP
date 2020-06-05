@@ -17,7 +17,7 @@ namespace TechnotheekWeb
     {
         private List<Song> songView = new List<Song>();
 
-        // Searches for a song according to the users input
+        //Zoekt naar nummer op basis van de input van de gebruiker
         public List<Song> LookUpSong(Song bel)
         {
             Song slb = new Song();
@@ -28,7 +28,6 @@ namespace TechnotheekWeb
             return new List<Song>(songView);
         }
 
-        //Gets the path of the song so it can be played
         public string GetPathOfSelectedSong(string selectedSong)
         {
             SqlCommand cmd = new SqlCommand("select * from [Song] where Name like @SelectedSong", con);
@@ -47,7 +46,6 @@ namespace TechnotheekWeb
             return SongLocation;
         }
 
-        //Gets all of the songs stored in the database
         public List<Song> GetAllSongs()
         {
             List<Song> Song = new List<Song>();
@@ -67,7 +65,7 @@ namespace TechnotheekWeb
             return Song;
         }
 
-        //Gives the admin the control to add new songs and name them
+        //Zet het pad van het nieuw toegevoegde nummer in de database
         public void AddNewSong(Song bel)
         {
             SqlCommand cmd = new SqlCommand(@"INSERT INTO[dbo].[Song] (Name, SongLink) values (@insertNameSong , @insertSongPath)", con);
@@ -76,36 +74,6 @@ namespace TechnotheekWeb
             con.Open();
             cmd.ExecuteNonQuery();
             con.Close();
-        }
-
-        public void AddNewPlaylist(string name, int ID)
-        {
-            SqlCommand cmd = new SqlCommand(@"INSERT INTO[dbo].[Playlist] (PlaylistName, userID) values (@inserPlaylistName, @userID)", con);
-            cmd.Parameters.AddWithValue("@inserPlaylistName", name);
-            cmd.Parameters.AddWithValue("@userID", ID);
-            con.Open();
-            cmd.ExecuteNonQuery();
-            con.Close();
-        }
-
-        public List<Playlist> RetrievePlaylists(int ID)
-        {
-            List<Playlist> Playlist = new List<Playlist>();
-
-            SqlCommand cmd = new SqlCommand("select * from [dbo].[Playlist] WHERE userID = @ID", con);
-            cmd.Parameters.AddWithValue("@ID", ID);
-            DataTable dt = new DataTable();
-            con.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                Playlist playlist = new Playlist();
-                playlist.Name = (reader["PlaylistName"].ToString());
-                Playlist.Add(playlist);
-            }
-            con.Close();
-
-            return Playlist;
         }
     }
 }

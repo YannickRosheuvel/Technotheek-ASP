@@ -35,7 +35,7 @@ namespace TechnotheekUnitTests
             return new User();
         }
 
-        public void GetUserPicture(User user, int userID)
+        public string GetUserPicture(User user, int userID)
         {
             throw new NotImplementedException();
         }

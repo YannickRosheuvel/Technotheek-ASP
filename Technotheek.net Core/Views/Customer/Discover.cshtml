@@ -1,0 +1,187 @@
+﻿@model IEnumerable<TechnotheekWeb.Models.Song>
+
+@{
+    ViewData["Title"] = "Discover";
+}
+
+@{
+    var userPlaylists = ViewBag.Playlists as IEnumerable<Technotheek.net_Core.Models.Playlist>;
+}
+
+<h1>Discover</h1>
+<form id="live-search">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Search song</label>
+        <input type="text" id="filter" name="NameSong" class="form-control">
+        <small id="Found" name="SongsFound" class="form-text text-muted"></small>
+    </div>
+    <span id="filter-count"></span>
+</form>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <partial name="_SongPlayPartial" />
+        </div>
+        <div class="col-sm">
+            <hr>
+            <div class="col-lg-8 pb-5">
+                <form class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="account-fn">Song Name</label>
+                            <input class="form-control" type="text" id="account-fn" value="" required="" disabled="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="account-ln">Artist</label>
+                            <input class="form-control" type="text" id="account-ln" value="" required="" disabled="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="account-email">Length</label>
+                            <input class="form-control" type="email" id="account-email" value="" disabled="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="account-phone">Album</label>
+                            <input class="form-control" type="text" id="account-phone" value="" required="" disabled="">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<form>
+    <table class="table table-hover table-dark">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td type="text" name="selectedSong">
+                        <div class="col-sm">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="col-sm">
+                            <button type="button" name="@item.ID" class="btn btn-primary">Add to playlist</button>
+                            @Html.ActionLink("Play", "Play", new { selectedSong = item.Name },
+                            new { style = "margin:10px", @class = "btn btn-info" })
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<div class="container">
+    <div class="modal fade" tabindex="-1" id="loginModal"
+         data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Choose a playlist</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        ×
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="CreatePlaylist" asp-controller="Customer" asp-action="CreatePlaylist" method="post">
+                        <div class="form-group">
+                            <table class="table">
+                                <tbody>
+                                    @foreach (var item in userPlaylists)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Add", "Add", new { selectedPlaylist = item.ID })
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            $("#filter").keyup(function () {
+
+                // Retrieve the input field text and reset the count to zero
+                var filter = $(this).val(), count = 0;
+
+                // Loop through the comment list
+                $("tbody tr").each(function () {
+
+                    // If the list item does not contain the text phrase fade it out
+                    if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                        $(this).fadeOut();
+
+                        // Show the list item if the phrase matches and increase the count by 1
+                    } else {
+                        $(this).show();
+                        count++;
+                    }
+                });
+
+                // Update the count
+                var numberItems = count;
+                $("#filter-count").text("Number of Songs = " + count);
+            });
+        });
+
+    </script>
+
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+        $("table button").click(function () {
+            $("#loginModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+    </script>
+}
+
+
+
+

@@ -42,10 +42,10 @@
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Playlist">Playlists</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserPage">Account</a>
-                                    </li>
-                                    <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Customer" asp-action="Customer">Discover</a>
+                                    </li>
+                                    <li class="nav-item ml-auto">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="UserPage">Account</a>
                                     </li>
                                 </ul>
                             }
@@ -53,7 +53,7 @@
                     </div>
                 </nav>
             </header>
-}
+        }
     }
 
     <div class="container">
@@ -62,11 +62,18 @@
         </main>
     </div>
 
-    @*<footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2020 - Technotheek - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>*@
+    <!-- Footer -->
+    <footer class="page-footer font-small blue">
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">
+            © 2020 Copyright:
+            <a href="https://Technotheek.nl/"> Technotheek</a>
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>

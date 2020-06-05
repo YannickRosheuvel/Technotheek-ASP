@@ -1,0 +1,115 @@
+﻿@model IEnumerable<TechnotheekWeb.Models.Song>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>@ViewBag.Playlist</h1>
+
+<form id="live-search">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Search song</label>
+        <input type="text" id="filter" name="NameSong" class="form-control">
+        <small id="Found" name="SongsFound" class="form-text text-muted"></small>
+    </div>
+    <span id="filter-count"></span>
+</form>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <partial name="_SongPlayPartial" />
+        </div>
+        <div class="col-sm">
+            <hr>
+            <div class="col-lg-8 pb-5">
+                <form class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="account-fn">Song Name</label>
+                            <input class="form-control" type="text" id="account-fn" value="" required="" disabled="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="account-ln">Artist</label>
+                            <input class="form-control" type="text" id="account-ln" value="" required="" disabled="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="account-email">Length</label>
+                            <input class="form-control" type="email" id="account-email" value="" disabled="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="account-phone">Album</label>
+                            <input class="form-control" type="text" id="account-phone" value="" required="" disabled="">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td type="text">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Play", "PlaySong", new { selectedSong = item.Name }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            $("#filter").keyup(function () {
+
+                // Retrieve the input field text and reset the count to zero
+                var filter = $(this).val(), count = 0;
+
+                // Loop through the comment list
+                $("tbody tr").each(function () {
+
+                    // If the list item does not contain the text phrase fade it out
+                    if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                        $(this).fadeOut();
+
+                        // Show the list item if the phrase matches and increase the count by 1
+                    } else {
+                        $(this).show();
+                        count++;
+                    }
+                });
+
+                // Update the count
+                var numberItems = count;
+                $("#filter-count").text("Number of Songs = " + count);
+            });
+        });
+
+    </script>
+}

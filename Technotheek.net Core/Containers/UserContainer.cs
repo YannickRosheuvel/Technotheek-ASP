@@ -18,9 +18,9 @@ namespace TechnotheekWeb.Containers
             this.userDAL = userDAL;
         }
 
-        public void AddUser(User register, string Username, string Password, int Contact, string FirstName, string LastName, string Street, int StreetNmr, string City, int userID)
+        public void AddUser(User user)
         {
-            userDAL.Registration(register, Username, Password, Contact, FirstName, LastName, Street, StreetNmr, City, userID);
+            userDAL.Registration(user);
         }
 
         public User LoginUser(Login login, string Email, string Password, int userID)

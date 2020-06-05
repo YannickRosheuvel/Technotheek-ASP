@@ -47,15 +47,5 @@ namespace TechnotheekWeb.Containers
         //{
         //    return songDAL.CheckForResult(sb);
         //}
-
-        public void MakeNewPlaylist(string name, int ID)
-        {
-            songDAL.AddNewPlaylist(name, ID);
-        }
-
-        public List<Playlist> GetPlaylists(int ID)
-        {
-           return songDAL.RetrievePlaylists(ID);
-        }
     }
 }

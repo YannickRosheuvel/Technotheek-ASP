@@ -96,5 +96,15 @@ namespace Technotheek.Tests
         {
             return new List<Playlist>(playlist);
         }
+
+        public List<Song> GetPlaylistSongs(string selectedPlaylist)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddSongToPlaylist(int songID, int playlistID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

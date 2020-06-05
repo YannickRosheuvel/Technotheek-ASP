@@ -56,7 +56,7 @@ namespace TechnotheekWeb.DAL
             return GetUserData(userID);
         }
 
-        // Sets the data for the user in the current session
+        // Deze methode haalt de user data op en geeft die mee aan de login methode
         public User GetUserData(int userID)
         {
             User user = new User();
@@ -84,10 +84,7 @@ namespace TechnotheekWeb.DAL
             return user;
         }
 
-
-
-        // Registration for the user
-        public void Registration(User bel, string Username, string Password, int Contact, string FirstName, string LastName, string Street, int StreetNmr, string City, int userID)
+        public void Registration(User user)
         {
 
             SqlCommand cmd = new SqlCommand(@"INSERT INTO [dbo].[User]
@@ -103,15 +100,15 @@ namespace TechnotheekWeb.DAL
            )
               VALUES
            (@Username,@Password,@Contact,@FirstName,@LastName,@Street,@StreetNmr,@City)", con);
-            cmd.Parameters.AddWithValue("@Username", Username);
-            cmd.Parameters.AddWithValue("@Password", Password);
-            cmd.Parameters.AddWithValue("@Contact", Contact);
-            cmd.Parameters.AddWithValue("@FirstName", FirstName);
-            cmd.Parameters.AddWithValue("@LastName", LastName);
-            cmd.Parameters.AddWithValue("@Street", Street);
-            cmd.Parameters.AddWithValue("@StreetNmr", StreetNmr);
-            cmd.Parameters.AddWithValue("@City", City);
-            cmd.Parameters.AddWithValue("@ID", userID);
+            cmd.Parameters.AddWithValue("@Username", user.Username);
+            cmd.Parameters.AddWithValue("@Password", user.Password);
+            cmd.Parameters.AddWithValue("@Contact", user.Contact);
+            cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
+            cmd.Parameters.AddWithValue("@LastName", user.LastName);
+            cmd.Parameters.AddWithValue("@Street", user.Street);
+            cmd.Parameters.AddWithValue("@StreetNmr", user.StreetNmr);
+            cmd.Parameters.AddWithValue("@City", user.City);
+            cmd.Parameters.AddWithValue("@ID", user.ID);
 
             con.Open();
             cmd.ExecuteNonQuery();
@@ -119,7 +116,7 @@ namespace TechnotheekWeb.DAL
         }
 
         public void InsertImage(User user, int userID)
-        { /*INSERT INTO[dbo].[User] (PictureLocation) values(@insertSongPath) WHERE ID values @userID*/
+        {
             SqlCommand cmd = new SqlCommand(@"UPDATE [dbo].[User] SET PictureLocation = @insertSongPath WHERE ID = @userID", con);
             cmd.Parameters.AddWithValue("@insertSongPath", user.PictureLocation);
             cmd.Parameters.AddWithValue("@userID", userID);
