@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Technotheek.net_Core.Models;
+using Technotheek.net_Core.ViewModels;
 using TechnotheekWeb.Interfaces;
 using TechnotheekWeb.Models;
 
@@ -17,11 +18,6 @@ namespace TechnotheekWeb.Containers
         {
             this.songDAL = songDAL;
         }
-
-        //public List<SongBELList> ReturnSearchSongs(BEL bel)
-        //{
-        //    return songDAL.SearchSong(bel);
-        //}
 
         public List<Song> ReturnAllSongs()
         {
@@ -39,13 +35,14 @@ namespace TechnotheekWeb.Containers
             return songDAL.LookUpSong(sb);
         }
 
-        public void NewSongAdd(Song sb)
+        public void NewSongAdd(SongCreateViewModel viewModel)
         {
-            songDAL.AddNewSong(sb);
+            songDAL.AddNewSong(viewModel);
         }
-        //public string ReturnIfSongsFound(SongBEL sb)
-        //{
-        //    return songDAL.CheckForResult(sb);
-        //}
+
+        public Song GetSongInfo(string songLink)
+        {
+            return songDAL.GetPlayingSongInfo(songLink);
+        }
     }
 }

@@ -61,7 +61,7 @@ namespace Technotheek.net_Core.Controllers
 
             if (HttpContext.Session.GetString("ID") != null)
             {
-                ViewBag.Picture = userContainer.GetPictureUser(user, currentUser.ID);
+                ViewBag.Picture = userContainer.GetPictureUser(currentUser.ID);
                 ViewBag.User = currentUser;
 
                 return View();

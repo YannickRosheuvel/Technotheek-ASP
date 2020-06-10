@@ -104,7 +104,7 @@ namespace TechnotheekUnitTests
             UserContainer userContainer = new UserContainer(userMock);
             Login login = new Login();
 
-            var actual = userContainer.LoginUser(login, "Yoda", "123", 1);
+            var actual = userContainer.LoginUser("Yoda", "123", 1);
 
             Assert.AreEqual("Yoda"  , actual.Username);
         }

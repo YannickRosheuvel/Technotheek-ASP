@@ -1,15 +1,17 @@
-﻿@model TechnotheekWeb.Models.User
+﻿@model Technotheek.net_Core.ViewModels.RegisterViewModel
 
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="agileits-main">
     <div class="w3top-nav">
         <div class="clear"></div>
     </div>
     <div class="header-main">
         <h2>Register Now</h2>
+        <div asp-validation-summary="ModelOnly"></div>
         <div class="header-bottom">
             <div class="header-right w3agile">
                 <div class="header-left-bottom agileinfo">
@@ -17,63 +19,66 @@
                     </form>
                     <form action="RegisterUser" method="post">
                         <div><small id="Error" name="ErrorRegistration" class="form-text text-muted"></small></div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input asp-for="Username" type="email" wclass="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                            <span asp-validation-for="Username"></span>
-                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input asp-for="Username" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <span asp-validation-for="Username"></span>
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input asp-for="Password" type="password" class="form-control" id="exampleInputPassword1">
+                                <span asp-validation-for="Password"></span>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input asp-for="Password" type="password" class="form-control" id="exampleInputPassword1">
-                            <span asp-validation-for="Password"></span>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputPassword1">Repeat password</label>
+                                <input asp-for="ComparePassword" type="password" class="form-control" id="exampleInputPassword1">
+                                <span asp-validation-for="ComparePassword"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputPassword1">First name</label>
+                                <input asp-for="FirstName" type="text" class="form-control" id="exampleInputPassword1">
+                                <span asp-validation-for="FirstName"></span>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Repeat password</label>
-                            <input asp-for="ComparePassword" type="password" class="form-control" id="exampleInputPassword1">
-                            <span asp-validation-for="ComparePassword"></span>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputPassword1">Last name</label>
+                                <input asp-for="LastName" type="text" class="form-control" id="exampleInputPassword1">
+                                <span asp-validation-for="LastName"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputPassword1">City</label>
+                                <input asp-for="City" type="text" class="form-control" id="exampleInputPassword1">
+                                <span asp-validation-for="City"></span>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">First name</label>
-                            <input asp-for="FirstName" type="text" class="form-control" id="exampleInputPassword1">
-                            <span asp-validation-for="FirstName"></span>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputPassword1">Street</label>
+                                <input asp-for="Street" type="text" class="form-control" id="exampleInputPassword1">
+                                <span asp-validation-for="Street"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputPassword1">Street number</label>
+                                <input asp-for="StreetNmr" type="number" n class="form-control" id="exampleInputPassword1">
+                                <span asp-validation-for="StreetNmr"></span>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="exampleInputPassword1">Phone number</label>
+                                <input asp-for="Contact" type="number" class="form-control" id="exampleInputPassword1">
+                                <span asp-validation-for="Contact"></span>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Last name</label>
-                            <input asp-for="LastName" type="text" class="form-control" id="exampleInputPassword1">
-                            <span asp-validation-for="LastName"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">City</label>
-                            <input asp-for="City" type="text"class="form-control" id="exampleInputPassword1">
-                            <span asp-validation-for="City"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Street</label>
-                            <input asp-for="Street" type="text" class="form-control" id="exampleInputPassword1">
-                            <span asp-validation-for="Street"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Street number</label>
-                            <input asp-for="StreetNmr" type="number" n class="form-control" id="exampleInputPassword1">
-                            <span asp-validation-for="StreetNmr"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Phone number</label>
-                            <input asp-for="Contact" type="number" class="form-control" id="exampleInputPassword1">
-                            <span asp-validation-for="Contact"></span>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-</div>
-<!-- //main -->
-<!-- copyright -->
-<div class="copyright Technotheek.com">
-    <p>©Technotheek 2020</p>
 </div>
 

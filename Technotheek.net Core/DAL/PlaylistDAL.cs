@@ -25,18 +25,19 @@ namespace Technotheek.net_Core.DAL
             con.Close();
         }
 
-        public List<Playlist> RetrievePlaylists(int ID)
+        public List<Playlist> RetrievePlaylists(int userID)
         {
             List<Playlist> Playlist = new List<Playlist>();
 
             SqlCommand cmd = new SqlCommand("select * from [dbo].[Playlist] WHERE userID = @ID", con);
-            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@ID", userID);
             con.Open();
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 Playlist playlist = new Playlist();
                 playlist.Name = (reader["PlaylistName"].ToString());
+                playlist.ID = Convert.ToInt32((reader["ID"]));
                 Playlist.Add(playlist);
             }
             con.Close();
@@ -44,62 +45,24 @@ namespace Technotheek.net_Core.DAL
             return Playlist;
         }
 
-        //Haalt de ID van de playlist op
-        public Playlist GetPlaylistID(string selectedPlaylist)
-        {
-            Playlist playlist = new Playlist();
-            SqlCommand cmd = new SqlCommand("select * from [Playlist] WHERE PlaylistName = @Name", con);
-            cmd.Parameters.AddWithValue("@Name", selectedPlaylist);
-            con.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                playlist.ID = Int32.Parse((reader["ID"].ToString()));
-            }
-            con.Close();
-
-            return playlist;
-        }
-
-        //Haalt de ID van de nummers op die in de Playlist zitten
-        public List<Song> GetSongID(string selectedPlaylist)
+        //Haalt de namen van de nummer op op basis van de meegegeven id van GetSongID
+        public List<Song> GetPlaylistSongs(int selectedPlaylist)
         {
             List<Song> Song = new List<Song>();
 
-            SqlCommand cmd = new SqlCommand("select * from [Playlist_Songs] WHERE PlaylistID = @ID", con);
-            cmd.Parameters.AddWithValue("@ID", GetPlaylistID(selectedPlaylist).ID);
+            SqlCommand cmd = new SqlCommand("SELECT* FROM Song WHERE ID IN(SELECT SongID FROM Playlist_Songs WHERE PlaylistID = @playlistID)", con);
+            cmd.Parameters.AddWithValue("@playlistID", selectedPlaylist);
+            DataTable dt = new DataTable();
             con.Open();
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 Song song = new Song();
-                song.ID = (Int32.Parse((reader["SongID"].ToString())));
+                song.Name = (reader["Name"].ToString());
                 Song.Add(song);
             }
             con.Close();
 
-            return Song;
-        }
-
-        //Haalt de namen van de nummer op op basis van de meegegeven id van GetSongID
-        public List<Song> GetPlaylistSongs(string selectedPlaylist)
-        {
-            List<Song> Song = new List<Song>();
-
-            foreach (var ID in GetSongID(selectedPlaylist))
-            {
-                SqlCommand cmd = new SqlCommand("select * from [Song] WHERE ID =" + ID.ID, con);
-                DataTable dt = new DataTable();
-                con.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    Song song = new Song();
-                    song.Name = (reader["Name"].ToString());
-                    Song.Add(song);
-                }
-                con.Close();
-            }
 
             return Song;
         }
@@ -113,5 +76,6 @@ namespace Technotheek.net_Core.DAL
             cmd.ExecuteNonQuery();
             con.Close();
         }
+
     }
 }

@@ -27,20 +27,23 @@ namespace TechnotheekWeb.Controllers
             return View();
         }
 
-        public ActionResult RegisterUser(User user, string ErrorRegistration)
+        public ActionResult RegisterUser(RegisterViewModel user)
         {
             //try add User voegt de waardes toe aan de database
-            try
+            if (ModelState.IsValid)
             {
-                userContainer.AddUser(user);
-                //pop up conformation
-                return RedirectToAction("Login", "Account");
+                try
+                {
+                    userContainer.AddUser(user);
+                    //pop up conformation
+                    return RedirectToAction("Login", "Account");
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Register", "Account", ex);
+                }
             }
-            catch (Exception ex)
-            {
-                ErrorRegistration = "Registration failed" + ex;
-                return RedirectToAction("Register", "Account", ex);
-            }
+            return RedirectToAction("Register", "Account");
         }
 
         public ActionResult Register()
@@ -50,32 +53,33 @@ namespace TechnotheekWeb.Controllers
 
         //Verified de user (kijkt in de database of de gegeven parameters matchen) 
         //en haalt vervolgens de info op en zet ze in een session
-        public ActionResult Verify(string Email, string Password, int userID)
+        public ActionResult Verify(LoginViewModel model)
         {
-            user = userContainer.LoginUser(login, Email, Password, userID);
+            if (ModelState.IsValid)
+            {
+                user = userContainer.LoginUser(model);
 
-            HttpContext.Session.SetString("ID", user.ID.ToString());
-            HttpContext.Session.SetString("FirstName", user.FirstName);
-            HttpContext.Session.SetString("LastName", user.LastName);
-            HttpContext.Session.SetString("Email", user.Username);
-            HttpContext.Session.SetString("Street", user.Street);
-            HttpContext.Session.SetString("StreetNmr", user.StreetNmr.ToString());
-            HttpContext.Session.SetString("City", user.City.ToString());
-            HttpContext.Session.SetString("Contact", user.Contact.ToString());
-            HttpContext.Session.SetString("FunctionType", user.FunctionType.ToString());
+                HttpContext.Session.SetString("ID", user.ID.ToString());
+                HttpContext.Session.SetString("FirstName", user.FirstName);
+                HttpContext.Session.SetString("LastName", user.LastName);
+                HttpContext.Session.SetString("Email", user.Username);
+                HttpContext.Session.SetString("Street", user.Street);
+                HttpContext.Session.SetString("StreetNmr", user.StreetNmr.ToString());
+                HttpContext.Session.SetString("City", user.City.ToString());
+                HttpContext.Session.SetString("Contact", user.Contact.ToString());
+                
+                HttpContext.Session.SetString("FunctionType", user.FunctionType.ToString());
 
-            if (login.IsAdmin == true)
-            {
-                return RedirectToAction("Admin", "Admin", user);
+                if (model.IsAdmin == true)
+                {
+                    return RedirectToAction("Admin", "Admin", user);
+                }
+                if (model.IsAdmin == false && login.AdminOrCostumer == false)
+                {
+                    return RedirectToAction("Index", "Customer", user);
+                }
             }
-            if(login.IsAdmin == false && login.AdminOrCostumer == false)
-            {
-                return RedirectToAction("Index", "Customer", user);
-            }
-            else
-            {
-                return View("Error");
-            }
+            return RedirectToAction("Login","Account");
         }
     }
 }

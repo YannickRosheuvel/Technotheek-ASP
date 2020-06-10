@@ -28,7 +28,7 @@ namespace Technotheek.net_Core.Containers
             return playlistDAL.RetrievePlaylists(ID);
         }
 
-        public List<Song> RetrievePlaylistSongs(string selectedPlaylist)
+        public List<Song> RetrievePlaylistSongs(int selectedPlaylist)
         {
             return playlistDAL.GetPlaylistSongs(selectedPlaylist);
         }

@@ -5,7 +5,7 @@
 }
 
 @{
-    var userPlaylists = ViewBag.Playlists as IEnumerable<Technotheek.net_Core.Models.Playlist>;
+    var songInfo = ViewBag.SongInfo as TechnotheekWeb.Models.Song;
 }
 
 <h1>Discover</h1>
@@ -30,25 +30,31 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="account-fn">Song Name</label>
-                            <input class="form-control" type="text" id="account-fn" value="" required="" disabled="">
+                            <input class="form-control" asp-for="@songInfo.Name">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="account-ln">Artist</label>
-                            <input class="form-control" type="text" id="account-ln" value="" required="" disabled="">
+                            <input class="form-control"  asp-for="@songInfo.Artist" type="text">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="account-email">Length</label>
-                            <input class="form-control" type="email" id="account-email" value="" disabled="">
+                            <input class="form-control"  asp-for="@songInfo.Name" type="email">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="account-phone">Album</label>
-                            <input class="form-control" type="text" id="account-phone" value="" required="" disabled="">
+                            <input class="form-control" asp-for="@songInfo.Album" type="text">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Genre</label>
+                            <input class="form-control" asp-for="@songInfo.Genre" type="text">
                         </div>
                     </div>
                 </form>
@@ -59,7 +65,7 @@
 
 <hr>
 
-<form>
+<form asp-controller="Customer" asp-action="SongID">
     <table class="table table-hover table-dark">
         <thead>
             <tr>
@@ -81,7 +87,7 @@
                     </td>
                     <td>
                         <div class="col-sm">
-                            <button type="button" name="@item.ID" class="btn btn-primary">Add to playlist</button>
+                            <button type="button" onclick="AddPartial(@item.ID)" class="btn btn-primary">Add to playlist</button>
                             @Html.ActionLink("Play", "Play", new { selectedSong = item.Name },
                             new { style = "margin:10px", @class = "btn btn-info" })
                         </div>
@@ -100,32 +106,15 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Choose a playlist</h4>
                     <button type="button" class="close" data-dismiss="modal">
-                        ×
+                        x
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="CreatePlaylist" asp-controller="Customer" asp-action="CreatePlaylist" method="post">
-                        <div class="form-group">
-                            <table class="table">
-                                <tbody>
-                                    @foreach (var item in userPlaylists)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Name)
-                                            </td>
-                                            <td>
-                                                @Html.ActionLink("Add", "Add", new { selectedPlaylist = item.ID })
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
+                    <div id="AddSongToPlaylistPartial"></div>
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                    <button type="button" onclick="Confirmation" id="btnHideModal" class="btn btn-primary button button4">
                         Close
                     </button>
                 </div>
@@ -179,7 +168,24 @@
         $("#btnHideModal").click(function () {
             $("#loginModal").modal('hide');
         });
+
     </script>
+
+<script>
+    function AddPartial(SongID) {
+        $.ajax({
+    type: 'POST',
+    url: "@Url.Action("AddSongPlaylistPartial", "Customer")",
+    data: { SongID: SongID },
+    }).done(function (r) {
+    //Zet deze partial in element met id="urenOverzichtPartial"
+    $('#AddSongToPlaylistPartial').html(r);
+    }).fail(function (e) {
+    console.log(e.responseText);
+    });
+
+        }
+</script>
 }
 
 

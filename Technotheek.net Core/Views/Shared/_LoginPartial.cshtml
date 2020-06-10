@@ -1,4 +1,6 @@
-﻿
+﻿@model Technotheek.net_Core.ViewModels.LoginViewModel
+
+
 @{
     ViewBag.Title = "Login";
 }
@@ -9,18 +11,21 @@
 <div class="agileits-main">
     <div class="header-main">
         <h2>Login Now</h2>
+        <div asp-validation-summary="ModelOnly"></div>
         <div class="header-bottom">
             <div class="header-right w3agile">
                 <div class="header-left-bottom agileinfo">
                     <form asp-controller="Account" asp-action="Verify">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input 340px;" type="email" name="Email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <label>Email address</label>
+                            <input 340px;" type="email" asp-for="Email" class="form-control" aria-describedby="emailHelp">
+                            <span asp-validation-for="Email"></span>
                             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Password</label>
-                            <input type="password" name="Password" class="form-control" id="exampleInputPassword1">
+                            <input type="password" asp-for="Password" class="form-control" id="exampleInputPassword1">
+                            <span asp-validation-for="Password"></span>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                         <p><a asp-action="Register" asp-controller="Account">Dont have an account yet?</a></p>

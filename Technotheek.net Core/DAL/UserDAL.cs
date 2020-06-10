@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data;
 using TechnotheekWeb.Interfaces;
 using TechnotheekWeb.Models;
+using Technotheek.net_Core.ViewModels;
 
 namespace TechnotheekWeb.DAL
 {
@@ -15,12 +16,12 @@ namespace TechnotheekWeb.DAL
         User user = new User();
 
         //Logs in the user
-        public User Login(Login login, string Email, string Password, int userID)
+        public User Login(LoginViewModel model)
         {
             con.Open();
             SqlCommand cmd = new SqlCommand("select * from [User] where Gebruikersnaam= @Username and Wachtwoord= @Password", con);
-            cmd.Parameters.AddWithValue("@Username", Email);
-            cmd.Parameters.AddWithValue("@Password", Password);
+            cmd.Parameters.AddWithValue("@Username", model.Email);
+            cmd.Parameters.AddWithValue("@Password", model.Password);
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             sda.Fill(dt);
@@ -29,11 +30,11 @@ namespace TechnotheekWeb.DAL
 
                 for (int i = 0; i < dt.Rows.Count;)
                 {
-                    login.Message = "You are logged in as " + dt.Rows[i][1].ToString();
+                    //login.Message = "You are logged in as " + dt.Rows[i][1].ToString();
                     if (dt.Rows[i]["FunctionType"].ToString() == "Admin")
                     {
                         user.ID = Convert.ToInt32(dt.Rows[i]["ID"]);
-                        login.IsAdmin = true;
+                        model.IsAdmin = true;
                         int ID = Int32.Parse(dt.Rows[i]["ID"].ToString());
                         con.Close();
                         return GetUserData(ID);
@@ -41,7 +42,7 @@ namespace TechnotheekWeb.DAL
                     else
                     {
                         user.ID = Convert.ToInt32(dt.Rows[i]["ID"]);
-                        login.IsAdmin = false;
+                        model.IsAdmin = false;
                         int ID = Int32.Parse(dt.Rows[i]["ID"].ToString());
                         con.Close();
                         return GetUserData(ID);
@@ -50,10 +51,10 @@ namespace TechnotheekWeb.DAL
             }
             else
             {
-                login.Message = "Username or Password incorrect.";
+                //login.Message = "Username or Password incorrect.";
                 con.Close();
             }
-            return GetUserData(userID);
+            return GetUserData(0);
         }
 
         // Deze methode haalt de user data op en geeft die mee aan de login methode
@@ -84,7 +85,7 @@ namespace TechnotheekWeb.DAL
             return user;
         }
 
-        public void Registration(User user)
+        public void Registration(RegisterViewModel user)
         {
 
             SqlCommand cmd = new SqlCommand(@"INSERT INTO [dbo].[User]
@@ -125,7 +126,7 @@ namespace TechnotheekWeb.DAL
             con.Close();
         }
 
-        public string GetUserPicture(User user, int userID)
+        public string GetUserPicture(int userID)
         {
             SqlCommand cmd = new SqlCommand("SELECT PictureLocation FROM [User] WHERE ID = @User_ID", con);
             cmd.Parameters.AddWithValue("@User_ID", userID);

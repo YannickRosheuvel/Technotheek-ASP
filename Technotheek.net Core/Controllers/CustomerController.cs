@@ -43,11 +43,12 @@ namespace TechnotheekWeb.Controllers
         //HostingEnviroment word gebruikt voor het storen van fotos
         public CustomerController(IWebHostEnvironment hostingEnviroment)
         {
+
             this.hostingEnviroment = hostingEnviroment;
         }
 
         [HttpGet]
-        public ViewResult Customer()
+        public IActionResult Customer()
         {
             var model = songContainer.ReturnAllSongs();
             if (HttpContext.Session.GetString("ID") != null)
@@ -59,7 +60,7 @@ namespace TechnotheekWeb.Controllers
             }
             else
             {
-                return View("Login", "Account");
+                return RedirectToAction("Login", "Account");
             }
         }
 
@@ -72,13 +73,14 @@ namespace TechnotheekWeb.Controllers
             return View("Discover", model);
         }
 
-        public ViewResult Play(string selectedSong)
+        public IActionResult Play(string selectedSong)
         {
             ViewBag.SelectedSong = songContainer.GetSelectedSongPath(selectedSong);
+            ViewBag.SongInfo = songContainer.GetSongInfo(songContainer.GetSelectedSongPath(selectedSong));
             return Customer();
         }
 
-        public ViewResult Playlist()
+        public IActionResult Playlist()
         {
             if (HttpContext.Session.GetString("ID") != null)
             {
@@ -88,7 +90,7 @@ namespace TechnotheekWeb.Controllers
             }
             else
             {
-                return View("Login", "Account");
+                return RedirectToAction("Login", "Account");
             }
         }
 
@@ -96,11 +98,6 @@ namespace TechnotheekWeb.Controllers
         {
             playlistContainer.MakeNewPlaylist(PlaylistName, currentUser.ID);
             return RedirectToAction("Playlist", "Customer");
-        }
-
-        public ViewResult AddSongToPlaylist(string songToAdd)
-        {
-            return Customer();
         }
 
         //De user word mee gegeven met de Index en vervolgens in een static currentUser gestored zodat
@@ -127,6 +124,15 @@ namespace TechnotheekWeb.Controllers
             User user = new User();
             if (ModelState.IsValid)
             {
+                var pictureLocation = userContainer.GetPictureUser(currentUser.ID);
+
+                if (pictureLocation != "")
+                {
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    System.IO.File.Delete("wwwroot/ProfilePictures/" + pictureLocation);
+                }
+
                 if (model.Image != null)
                 {
                     string uploadsFolder = Path.Combine(hostingEnviroment.WebRootPath, "ProfilePictures");
@@ -140,7 +146,7 @@ namespace TechnotheekWeb.Controllers
         }
 
         //Opent een playlist naar keuze met alle toebehorende nummers die daar in zitten
-        public IActionResult Open(string selectedPlaylist)
+        public IActionResult Open(int selectedPlaylist)
         {
             ViewBag.User = currentUser;
             ViewBag.Playlist = selectedPlaylist;
@@ -156,10 +162,29 @@ namespace TechnotheekWeb.Controllers
             return View("PlaylistSongs", currentSongs);
         }
 
-        public IActionResult Add(string selectedPlaylist)
+        public IActionResult Add(int selectedPlaylist, int selectedSong) 
         {
-
+            try
+            {
+                playlistContainer.AddSongPlaylist(selectedSong, selectedPlaylist);
+                TempData["SuccesOrNot"] = "Song saved to playlist!";
+            }
+            catch
+            {
+                TempData["SuccesOrNot"] = "Song did not save to playlist";
+            }
+            
             return Customer();
+        }
+
+        [HttpPost]
+        public IActionResult AddSongPlaylistPartial(int SongID)
+        {
+            Song song = new Song();
+
+            song.ID = SongID;
+
+            return View("_AddSongToPlaylistPartial", song);
         }
     }
 }

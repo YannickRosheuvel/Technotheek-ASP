@@ -10,7 +10,7 @@ namespace Technotheek.net_Core.Interfaces
     public interface IPlaylistDAL
     {
         List<Playlist> RetrievePlaylists(int ID);
-        List<Song> GetPlaylistSongs(string selectedPlaylist);
+        List<Song> GetPlaylistSongs(int selectedPlaylist);
         void AddSongToPlaylist(int songID, int playlistID);
         void AddNewPlaylist(string name, int ID);
     }

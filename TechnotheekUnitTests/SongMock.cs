@@ -106,5 +106,10 @@ namespace Technotheek.Tests
         {
             throw new NotImplementedException();
         }
+
+        public Song GetPlayingSongInfo(string songLink)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

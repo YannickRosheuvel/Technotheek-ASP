@@ -1,0 +1,38 @@
+﻿@model TechnotheekWeb.Models.Song
+@using Technotheek.net_Core.Containers;
+@using Technotheek.net_Core.DAL;
+@using Technotheek.net_Core.Models;
+@using Microsoft.AspNetCore.Http;
+
+@{
+    PlaylistContainer playlistContainer = new PlaylistContainer(new PlaylistDAL());
+    List<Playlist> playlists = new List<Playlist>();
+    playlists = playlistContainer.GetPlaylists(Convert.ToInt32(Context.Session.GetString("ID")));
+
+    
+}
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<form id="CreatePlaylist" asp-controller="Customer" asp-action="CreatePlaylist" method="post">
+    <div class="form-group">
+        <table class="table">
+            <tbody>
+                @foreach (var item in playlists)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Add", "Add", new { selectedPlaylist = item.ID, selectedSong = Model.ID })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</form>
+

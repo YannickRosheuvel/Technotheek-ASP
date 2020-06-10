@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Technotheek.net_Core.ViewModels;
 using TechnotheekWeb.Interfaces;
 using TechnotheekWeb.Models;
 
@@ -65,10 +66,19 @@ namespace TechnotheekUnitTests
             return user;
         }
 
+        public User Login(Login bel, LoginViewModel model, int userID)
+        {
+            throw new NotImplementedException();
+        }
 
         public void Registration(User bel, string Username, string Password, int Contact, string FirstName, string LastName, string Street, int StreetNmr, string City, int userID)
         {
             user.Username = Username;
+        }
+
+        public void Registration(RegisterViewModel user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

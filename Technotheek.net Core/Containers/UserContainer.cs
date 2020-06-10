@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Technotheek.net_Core.ViewModels;
 using TechnotheekWeb.DAL;
 using TechnotheekWeb.Interfaces;
 using TechnotheekWeb.Models;
@@ -18,14 +19,14 @@ namespace TechnotheekWeb.Containers
             this.userDAL = userDAL;
         }
 
-        public void AddUser(User user)
+        public void AddUser(RegisterViewModel user)
         {
             userDAL.Registration(user);
         }
 
-        public User LoginUser(Login login, string Email, string Password, int userID)
+        public User LoginUser(LoginViewModel model)
         {
-            return userDAL.Login(login, Email, Password, userID);
+            return userDAL.Login(model);
         }
 
         public User RetrieveUserData(int userID)
@@ -38,9 +39,9 @@ namespace TechnotheekWeb.Containers
             userDAL.InsertImage(user, userID);
         }
 
-        public string GetPictureUser(User user, int userID)
+        public string GetPictureUser(int userID)
         {
-            return userDAL.GetUserPicture(user, userID);
+            return userDAL.GetUserPicture(userID);
         }
     }
 }

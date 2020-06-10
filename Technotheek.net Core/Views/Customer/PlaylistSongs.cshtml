@@ -4,6 +4,10 @@
     ViewData["Title"] = "View";
 }
 
+@{
+    var songInfo = ViewBag.SongInfo as TechnotheekWeb.Models.Song;
+}
+
 <h1>@ViewBag.Playlist</h1>
 
 <form id="live-search">
@@ -27,25 +31,31 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="account-fn">Song Name</label>
-                            <input class="form-control" type="text" id="account-fn" value="" required="" disabled="">
+                            <input class="form-control" asp-for="@songInfo.Name">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="account-ln">Artist</label>
-                            <input class="form-control" type="text" id="account-ln" value="" required="" disabled="">
+                            <input class="form-control" asp-for="@songInfo.Name" type="text">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="account-email">Length</label>
-                            <input class="form-control" type="email" id="account-email" value="" disabled="">
+                            <input class="form-control" asp-for="@songInfo.Name" type="email">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="account-phone">Album</label>
-                            <input class="form-control" type="text" id="account-phone" value="" required="" disabled="">
+                            <input class="form-control" asp-for="@songInfo.Name" type="text">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Genre</label>
+                            <input class="form-control" asp-for="@songInfo.Name" type="text">
                         </div>
                     </div>
                 </form>
