@@ -31,31 +31,25 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="account-fn">Song Name</label>
-                            <input class="form-control" asp-for="@songInfo.Name">
+                            <input class="form-control" asp-for="@songInfo.Name" disabled="">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="account-ln">Artist</label>
-                            <input class="form-control" asp-for="@songInfo.Name" type="text">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="account-email">Length</label>
-                            <input class="form-control" asp-for="@songInfo.Name" type="email">
+                            <input class="form-control" asp-for="@songInfo.Artist" type="text" disabled="">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="account-phone">Album</label>
-                            <input class="form-control" asp-for="@songInfo.Name" type="text">
+                            <input class="form-control" asp-for="@songInfo.Album" type="text" disabled="">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Genre</label>
-                            <input class="form-control" asp-for="@songInfo.Name" type="text">
+                            <input class="form-control" asp-for="@songInfo.Genre" type="text" disabled="" >
                         </div>
                     </div>
                 </form>
@@ -83,9 +77,10 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.ActionLink("Play", "PlaySong", new { selectedSong = item.Name }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Play", "PlaySong", new { selectedSong = item.Name },
+new { style = "margin:10px", @class = "btn btn-info" })
+                    @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
                 </td>
             </tr>
         }

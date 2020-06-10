@@ -18,9 +18,5 @@ namespace TechnotheekWeb.Interfaces
         List<Song> GetAllSongs();
         List<Song> LookUpSong(Song bel);
         Song GetPlayingSongInfo(string songLink);
-        string AlbumName(int albumID);
-        string ArtistName(int artistID);
-        string GenreName(int genreID);
-
     }
 }

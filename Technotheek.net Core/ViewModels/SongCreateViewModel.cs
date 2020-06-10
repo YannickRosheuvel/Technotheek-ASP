@@ -22,5 +22,6 @@ namespace Technotheek.net_Core.ViewModels
         [Required]
         public string Length { get; set; }
         public string SongLink { get; set; }
+        public int ID { get; set; }
     }
 }

@@ -11,6 +11,8 @@ namespace TechnotheekUnitTests
     {
         public User user = new User();
 
+        public RegisterViewModel registerViewModel = new RegisterViewModel();
+
         public List<User> userList = new List<User>()
         {
             new User
@@ -41,19 +43,23 @@ namespace TechnotheekUnitTests
             throw new NotImplementedException();
         }
 
+        public string GetUserPicture(int userID)
+        {
+            throw new NotImplementedException();
+        }
+
         public void InsertImage(User user, int userID)
         {
             throw new NotImplementedException();
         }
 
-        public User Login(Login login, string Email, string Password, int userID)
+        public User Login(LoginViewModel model)
         {
-
             for (int i = 0; i < userList.Count; i++)
             {
-                if (userList[i].Password == Password && userList[i].Username == Email)
+                if (userList[i].Password == model.Password && userList[i].Username == model.Email)
                 {
-                    if(userList[i].FunctionType == "Admin")
+                    if (userList[i].FunctionType == "Admin")
                     {
                         return userList[i];
                     }
@@ -66,11 +72,6 @@ namespace TechnotheekUnitTests
             return user;
         }
 
-        public User Login(Login bel, LoginViewModel model, int userID)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Registration(User bel, string Username, string Password, int Contact, string FirstName, string LastName, string Street, int StreetNmr, string City, int userID)
         {
             user.Username = Username;
@@ -78,7 +79,7 @@ namespace TechnotheekUnitTests
 
         public void Registration(RegisterViewModel user)
         {
-            throw new NotImplementedException();
+            registerViewModel = user;
         }
     }
 }

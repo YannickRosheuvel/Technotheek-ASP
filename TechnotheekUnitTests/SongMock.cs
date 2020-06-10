@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Technotheek.net_Core.Models;
+using Technotheek.net_Core.ViewModels;
 using TechnotheekWeb.Interfaces;
 using TechnotheekWeb.Models;
 
@@ -11,7 +12,22 @@ namespace Technotheek.Tests
 {
     public class SongMock : ISongDAL
     {
-        public List<Song> songListBel = new List<Song>();
+        public List<Song> songList = new List<Song>()
+        {
+            new Song
+            {
+                SongLink = "Yoda",
+                Name = "Yoda"
+            }
+        };
+        SongCreateViewModel songCreateViewModel = new SongCreateViewModel()
+        {
+            Name = "Yoda",
+            ID = 1,
+            Genre = "Yoda",
+            Artist = "Yoda",
+            Album = "Yoda"
+        };
 
         List<Playlist> playlist = new List<Playlist>
         {
@@ -58,10 +74,6 @@ namespace Technotheek.Tests
             return new List<Song>(mockList);
         }
 
-        public void AddNewSong(Song bel)
-        {
-            mockList.Add(new Song { Name = "hoi", SongLink = "5" });
-        }
 
         public string GetPathOfSelectedSong(string songName)
         {
@@ -92,16 +104,6 @@ namespace Technotheek.Tests
             playlist.Add(new Playlist { Name = "Yoda" });
         }
 
-        public List<Playlist> RetrievePlaylists(int ID)
-        {
-            return new List<Playlist>(playlist);
-        }
-
-        public List<Song> GetPlaylistSongs(string selectedPlaylist)
-        {
-            throw new NotImplementedException();
-        }
-
         public void AddSongToPlaylist(int songID, int playlistID)
         {
             throw new NotImplementedException();
@@ -109,7 +111,19 @@ namespace Technotheek.Tests
 
         public Song GetPlayingSongInfo(string songLink)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < mockList.Count; i++)
+            {
+                if (songList[i].SongLink == songLink)
+                {
+                    return songList[i];
+                }
+            }
+            return new Song();
+        }
+
+        public void AddNewSong(SongCreateViewModel songCreateViewModel)
+        {
+            mockList.Add(new Song { Name = songCreateViewModel.Name, SongLink = songCreateViewModel.SongLink });
         }
     }
 }

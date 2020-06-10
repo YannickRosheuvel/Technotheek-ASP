@@ -157,6 +157,7 @@ namespace TechnotheekWeb.Controllers
 
         public ViewResult PlaySong(string selectedSong)
         {
+            ViewBag.SongInfo = songContainer.GetSongInfo(songContainer.GetSelectedSongPath(selectedSong));
             ViewBag.User = currentUser;
             ViewBag.SelectedSong = songContainer.GetSelectedSongPath(selectedSong);
             return View("PlaylistSongs", currentSongs);

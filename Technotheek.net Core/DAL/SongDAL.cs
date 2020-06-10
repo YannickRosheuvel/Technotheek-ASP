@@ -33,8 +33,6 @@ namespace TechnotheekWeb
         {
             SqlCommand cmd = new SqlCommand("select * from [Song] where Name like @SelectedSong", con);
             cmd.Parameters.AddWithValue("@SelectedSong", selectedSong);
-            SqlDataAdapter sda = new SqlDataAdapter(cmd);
-            DataTable dt = new DataTable();
             con.Open();
             SqlDataReader dr = cmd.ExecuteReader();
             string SongLocation = "";
@@ -52,7 +50,6 @@ namespace TechnotheekWeb
             List<Song> Song = new List<Song>();
 
             SqlCommand cmd = new SqlCommand("select * from [Song]", con); 
-            DataTable dt = new DataTable();
             con.Open();
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
