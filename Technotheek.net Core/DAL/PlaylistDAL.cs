@@ -50,7 +50,7 @@ namespace Technotheek.net_Core.DAL
         {
             List<Song> Song = new List<Song>();
 
-            SqlCommand cmd = new SqlCommand("SELECT* FROM Song WHERE ID IN(SELECT SongID FROM Playlist_Songs WHERE PlaylistID = @playlistID)", con);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Song WHERE ID IN(SELECT SongID FROM Playlist_Songs WHERE PlaylistID = @playlistID)", con);
             cmd.Parameters.AddWithValue("@playlistID", selectedPlaylist);
             DataTable dt = new DataTable();
             con.Open();

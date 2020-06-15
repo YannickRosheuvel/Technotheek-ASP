@@ -14,14 +14,14 @@ namespace TechnotheekUnitTests
         {
             new Playlist
             {
-                Name = "Yoda"
+                Name = "Lekker lijste om te zagen"
             }
         };
 
         public void AddNewPlaylist(string name, int ID)
         {
             Playlist list = new Playlist();
-            list.Name = "yoda";
+            list.Name = "Lekker lijste om te zagen";
             playlist.Add(list);
         }
 

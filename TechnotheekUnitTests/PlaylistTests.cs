@@ -29,23 +29,23 @@ namespace TechnotheekUnitTests
             PlaylistMock playlisMock = new PlaylistMock();
             PlaylistContainer playlistContainer = new PlaylistContainer(playlisMock);
 
-            playlistContainer.MakeNewPlaylist("Yoda", 1);
+            playlistContainer.MakeNewPlaylist("Lekker lijste om te zagen", 1);
             var expected = 2;
             var actual = playlisMock.playlist.Count;
 
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
-        public void Returns_Correct_Property()
-        {
+        //[TestMethod]
+        //public void Returns_Correct_Property()
+        //{
 
-            PlaylistMock playlisMock = new PlaylistMock();
-            PlaylistContainer playlistContainer = new PlaylistContainer(playlisMock);
+        //    PlaylistMock playlisMock = new PlaylistMock();
+        //    PlaylistContainer playlistContainer = new PlaylistContainer(playlisMock);
 
 
 
-            Assert.AreEqual(expected, actual);
-        }
+        //    Assert.AreEqual(expected, actual);
+        //}
     }
 }

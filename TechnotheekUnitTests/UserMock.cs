@@ -17,7 +17,7 @@ namespace TechnotheekUnitTests
         {
             new User
             {
-                Username = "Yoda",
+                Username = "yannick.rosheuvel@gmail.com",
                 Password = "123",
                 ID = 1,
                 FunctionType = "Admin"

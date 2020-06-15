@@ -27,8 +27,8 @@
                     <div class="author-card-details">
                         <h5 class="author-card-name text-lg">@currentUser.FirstName @currentUser.LastName</h5>
                         <partial name="_UserPicture" /> 
-                        <button type="submit" id="open" class="btn btn-primary">Change profile picture</button>
-                    </div>
+                    <
+/div>
                 </div>
             </div>
             <div id="userPicturePartial"></div>
@@ -122,13 +122,18 @@
     </div>
 </div>
 
-<script type="text/javascript">
 
-    $("#open").click(function () {
-        $("#loginModal").modal('show');
-    });
+@section scripts{ 
 
-    $("#btnHideModal").click(function () {
-        $("#loginModal").modal('hide');
-    });
-</script>
+    <script type="text/javascript">
+
+        $("#open").click(function () {
+            $("#loginModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+    </script>
+
+}

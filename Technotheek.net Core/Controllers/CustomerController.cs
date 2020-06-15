@@ -60,7 +60,7 @@ namespace TechnotheekWeb.Controllers
             }
             else
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Account");
             }
         }
 
@@ -90,7 +90,7 @@ namespace TechnotheekWeb.Controllers
             }
             else
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Account");
             }
         }
 

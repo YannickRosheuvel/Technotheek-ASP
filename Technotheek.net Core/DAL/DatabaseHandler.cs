@@ -39,6 +39,7 @@ namespace TechnotheekWeb
 
         public void CUD(string query)
         {
+
             result = false;
             try
             {

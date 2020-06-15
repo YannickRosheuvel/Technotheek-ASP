@@ -16,24 +16,24 @@ namespace Technotheek.Tests
         {
             new Song
             {
-                SongLink = "Yoda",
-                Name = "Yoda"
+                SongLink = "What I See - DYEN",
+                Name = "What I See - DYEN"
             }
         };
         SongCreateViewModel songCreateViewModel = new SongCreateViewModel()
         {
-            Name = "Yoda",
+            Name = "What I See - DYEN",
             ID = 1,
-            Genre = "Yoda",
-            Artist = "Yoda",
-            Album = "Yoda"
+            Genre = "Hard Techno",
+            Artist = "DYEN",
+            Album = "No Album"
         };
 
         List<Playlist> playlist = new List<Playlist>
         {
             new Playlist
             {
-                Name = "Yoda"
+                Name = "What I See - DYEN"
             }
         };
 
@@ -47,7 +47,7 @@ namespace Technotheek.Tests
         {
             new Song
             {
-                Name = "hey", SongLink = "1"
+                Name = "What I See - DYEN", SongLink = "1"
             },
             new Song
             {
@@ -91,7 +91,7 @@ namespace Technotheek.Tests
         {
             for (int i = 0; i < mockList.Count; i++)
             {
-                if (mockList[i].Name == "hey")
+                if (mockList[i].Name == "What I See - DYEN")
                 {
                     bel.Name = mockList[i].Name;
                 }
@@ -101,7 +101,7 @@ namespace Technotheek.Tests
 
         public void AddNewPlaylist(string name, int ID)
         {
-            playlist.Add(new Playlist { Name = "Yoda" });
+            playlist.Add(new Playlist { Name = "What I See - DYEN" });
         }
 
         public void AddSongToPlaylist(int songID, int playlistID)

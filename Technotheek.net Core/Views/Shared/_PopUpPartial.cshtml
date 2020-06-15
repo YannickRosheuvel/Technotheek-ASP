@@ -30,19 +30,24 @@
 
 <button type="submit" class="btn btn-primary">Create new Playlist</button>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+@section scripts{
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
 
 
-</script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
+    </script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $("table button").click(function () {
-        $("#loginModal").modal('show');
-    });
+        $("table button").click(function () {
+            $("#loginModal").modal('show');
+        });
 
-    $("#btnHideModal").click(function () {
-        $("#loginModal").modal('hide');
-    });
-</script>
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+    </script>
+
+}

@@ -16,17 +16,17 @@ namespace TechnotheekWeb
 
     public class SongDAL : DatabaseHandler, ISongDAL
     {
-        private List<Song> songView = new List<Song>();
+        private List<Song> songList = new List<Song>();
 
         //Zoekt naar nummer op basis van de input van de gebruiker
-        public List<Song> LookUpSong(Song bel)
+        public List<Song> LookUpSong(Song song)
         {
             Song slb = new Song();
             DynamicParameters param = new DynamicParameters();
-            param.Add("@Name", bel.Name);
+            param.Add("@Name", song.Name);
             List<Song> list = con.Query<Song>("LookUpSong", param, commandType: CommandType.StoredProcedure).ToList();
-            songView = list;
-            return new List<Song>(songView);
+            songList = list;
+            return new List<Song>(songList);
         }
 
         public string GetPathOfSelectedSong(string selectedSong)
@@ -70,16 +70,16 @@ namespace TechnotheekWeb
             SqlCommand cmd = new SqlCommand(@"INSERT INTO[dbo].[Song] (Name, SongLink, GenreID, ArtistID, AlbumID) values (@NameSong , @SongPath, @Genre, @Artist, @Album)", con);
             cmd.Parameters.AddWithValue("@NameSong", songCreateViewModel.Name);
             cmd.Parameters.AddWithValue("@SongPath", songCreateViewModel.SongLink);
-            cmd.Parameters.AddWithValue("@Genre", AddGenre(songCreateViewModel));
-            cmd.Parameters.AddWithValue("@Artist", AddArtist(songCreateViewModel));
-            cmd.Parameters.AddWithValue("@Album", AddAlbum(songCreateViewModel));
+            cmd.Parameters.AddWithValue("@Genre", AddGenreID(songCreateViewModel));
+            cmd.Parameters.AddWithValue("@Artist", AddArtistID(songCreateViewModel));
+            cmd.Parameters.AddWithValue("@Album", AddAlbumID(songCreateViewModel));
             //cmd.Parameters.AddWithValue("@Album", songCreateViewModel.Album);
             con.Open();
             cmd.ExecuteNonQuery();
             con.Close();
         }
 
-        public int AddAlbum(SongCreateViewModel songCreateViewModel)
+        public int AddAlbumID(SongCreateViewModel songCreateViewModel)
         {
             int AlbumID = 0;
 
@@ -99,7 +99,7 @@ namespace TechnotheekWeb
             return AlbumID;
         }
 
-        public int AddGenre(SongCreateViewModel songCreateViewModel)
+        public int AddGenreID(SongCreateViewModel songCreateViewModel)
         {
             int GenreID = 0;
 
@@ -115,7 +115,7 @@ namespace TechnotheekWeb
             return GenreID;
         }
 
-        public int AddArtist(SongCreateViewModel songCreateViewModel)
+        public int AddArtistID(SongCreateViewModel songCreateViewModel)
         {
             int ArtistID = 0;
 
@@ -135,77 +135,30 @@ namespace TechnotheekWeb
             return ArtistID;
         }
 
+
+        //joins
         public Song GetPlayingSongInfo(string songLink)
         {
             Song song = new Song();
 
-            SqlCommand cmd = new SqlCommand("select * from [Song] WHERE SongLink = @SongLink", con);
+            SqlCommand cmd = new SqlCommand("Select * from Song Inner Join Artist on Song.SongLink=@SongLink " +
+                " Inner Join Album on Song.SongLink=@SongLink" +
+                " Inner Join Genre on Song.SongLink=@SongLink", con);
             cmd.Parameters.AddWithValue("@SongLink", songLink);
-            DataTable dt = new DataTable();
+            //cmd.Parameters.AddWithValue("@SongLink", songLink);
+            //cmd.Parameters.AddWithValue("@SongLink", songLink);
             con.Open();
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
                 song.Name = (reader["Name"].ToString());
-                song.ArtistID = Convert.ToInt32((reader["ArtistID"]));
-                song.AlbumID = Convert.ToInt32((reader["AlbumID"]));
-                song.GenreID = Convert.ToInt32((reader["GenreID"]));
+                song.Artist = (reader["ArtistName"].ToString());
+                song.Genre = (reader["GenreName"].ToString());
+                song.Album = (reader["AlbumName"].ToString());
             }
             con.Close();
-
-            song.Genre = GenreName(song.GenreID);
-            song.Artist = ArtistName(song.ArtistID);
-            song.Album = AlbumName(song.AlbumID);
 
             return song;
-        }
-
-        public string GenreName(int genreID)
-        {
-            string genre = "";
-
-            SqlCommand read = new SqlCommand(@"SELECT * FROM [Genre] WHERE ID = @genreID", con);
-            read.Parameters.AddWithValue("@genreID", genreID);
-            con.Open();
-            SqlDataReader reader = read.ExecuteReader();
-            while (reader.Read())
-            {
-                genre = (reader["Name"].ToString());
-            }
-            con.Close();
-            return genre;
-        }
-
-        public string ArtistName(int artistID)
-        {
-            string artist = "";
-
-            SqlCommand read = new SqlCommand(@"SELECT * FROM [Artist] WHERE ID = @artistID", con);
-            read.Parameters.AddWithValue("@artistID", artistID);
-            con.Open();
-            SqlDataReader reader = read.ExecuteReader();
-            while (reader.Read())
-            {
-                artist = (reader["Name"].ToString());
-            }
-            con.Close();
-            return artist;
-        }
-
-        public string AlbumName(int albumID)
-        {
-            string album = "";
-
-            SqlCommand read = new SqlCommand(@"SELECT * FROM [Album] WHERE ID = @albumID", con);
-            read.Parameters.AddWithValue("@albumID", albumID);
-            con.Open();
-            SqlDataReader reader = read.ExecuteReader();
-            while (reader.Read())
-            {
-                album = (reader["Name"].ToString());
-            }
-            con.Close();
-            return album;
         }
     }
 }

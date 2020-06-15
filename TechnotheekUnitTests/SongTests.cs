@@ -13,7 +13,7 @@ namespace TechnotheekUnitTests
         [TestMethod]
         public void See_If_Searched_Songs_Is_Correct()
         {
-            var expected = "hey";
+            var expected = "What I See - DYEN";
             Song song = new Song();
             SongMock iSongMock = new SongMock();
             SongContainer songContainer = new SongContainer(iSongMock);
@@ -74,8 +74,8 @@ namespace TechnotheekUnitTests
             SongMock iSongMock = new SongMock();
             SongContainer songContainer = new SongContainer(iSongMock);
 
-            var actual = songContainer.GetSongInfo("Yoda").Name;
-            var expected = "Yoda";
+            var actual = songContainer.GetSongInfo("What I See - DYEN").Name;
+            var expected = "What I See - DYEN";
 
             Assert.AreEqual(expected, actual);
 
@@ -89,7 +89,7 @@ namespace TechnotheekUnitTests
             SongCreateViewModel song = new SongCreateViewModel();
             SongContainer songContainer = new SongContainer(iSongMock);
 
-            var actual = songContainer.GetSelectedSongPath("hey");
+            var actual = songContainer.GetSelectedSongPath("What I See - DYEN");
 
             var expected = "1";
 

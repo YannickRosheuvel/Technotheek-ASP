@@ -18,7 +18,7 @@ namespace TechnotheekUnitTests
             UserContainer userContainer = new UserContainer(userMock);
 
             var actual = userContainer.RetrieveUserData(1);
-            var expected = "Yoda";
+            var expected = "yannick.rosheuvel@gmail.com";
 
             Assert.AreEqual(expected, actual.Username);
         }
@@ -27,7 +27,7 @@ namespace TechnotheekUnitTests
         public void User_Logs_In_Correctely()
         {
             LoginViewModel loginViewModel = new LoginViewModel();
-            loginViewModel.Email = "Yoda";
+            loginViewModel.Email = "yannick.rosheuvel@gmail.com";
             loginViewModel.Password = "123";
 
             UserMock userMock = new UserMock();
@@ -37,7 +37,7 @@ namespace TechnotheekUnitTests
 
             var actual = userContainer.LoginUser(loginViewModel);
 
-            Assert.AreEqual("Yoda", actual.Username);
+            Assert.AreEqual("yannick.rosheuvel@gmail.com", actual.Username);
         }
 
         [TestMethod]
@@ -45,13 +45,13 @@ namespace TechnotheekUnitTests
         {
             RegisterViewModel registerViewModel = new RegisterViewModel();
 
-            registerViewModel.Username = "Yoda";
+            registerViewModel.Username = "yannick.rosheuvel@gmail.com";
 
             UserMock userMock = new UserMock();
             UserContainer userContainer = new UserContainer(userMock);
 
             userContainer.AddUser(registerViewModel);
-            var expected = "Yoda";
+            var expected = "yannick.rosheuvel@gmail.com";
 
             Assert.AreEqual(expected, userMock.registerViewModel.Username);
         }
