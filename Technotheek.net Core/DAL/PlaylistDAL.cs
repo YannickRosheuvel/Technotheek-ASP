@@ -67,14 +67,24 @@ namespace Technotheek.net_Core.DAL
             return Song;
         }
 
-        public void AddSongToPlaylist(int songID, int playlistID)
+        public PlaylistSongs AddSongToPlaylist(PlaylistSongs playlistSongs)
         {
-            SqlCommand cmd = new SqlCommand(@"INSERT INTO[dbo].[Playlist_Songs] (SongID, PlaylistID) values (@SongID, @PlaylistID)", con);
-            cmd.Parameters.AddWithValue("@SongID", songID);
-            cmd.Parameters.AddWithValue("@PlaylistID", playlistID);
-            con.Open();
-            cmd.ExecuteNonQuery();
-            con.Close();
+            if(playlistSongs.songID != 0 & playlistSongs.playlistID != 0)
+            {
+                SqlCommand cmd = new SqlCommand(@"INSERT INTO[dbo].[Playlist_Songs] (SongID, PlaylistID) values (@SongID, @PlaylistID)", con);
+                cmd.Parameters.AddWithValue("@SongID", playlistSongs.songID);
+                cmd.Parameters.AddWithValue("@PlaylistID", playlistSongs.playlistID);
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+
+                return playlistSongs;
+            }
+            else
+            {
+                return playlistSongs;
+            }
+
         }
 
     }

@@ -11,7 +11,7 @@ namespace Technotheek.net_Core.Interfaces
     {
         List<Playlist> RetrievePlaylists(int ID);
         List<Song> GetPlaylistSongs(int selectedPlaylist);
-        void AddSongToPlaylist(int songID, int playlistID);
+        PlaylistSongs AddSongToPlaylist(PlaylistSongs playlistSongs);
         void AddNewPlaylist(string name, int ID);
     }
 }

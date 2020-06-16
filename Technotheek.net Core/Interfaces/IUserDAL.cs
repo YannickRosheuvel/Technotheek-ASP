@@ -10,10 +10,10 @@ namespace TechnotheekWeb.Interfaces
 {
     public interface IUserDAL
     {
-        void Registration(RegisterViewModel user);
+        RegisterViewModel Registration(RegisterViewModel user);
         User Login(LoginViewModel model);
         User GetUserData(int userID);
-        void InsertImage(User user, int userID);
+        User InsertImage(User user, int userID);
         string GetUserPicture(int userID);
     }
 }

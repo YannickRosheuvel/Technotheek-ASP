@@ -1,0 +1,18 @@
+.header{
+color: rgb(209, 216, 108);
+font-family: "Times New Roman", Times, serif;
+text-decoration: underline;
+}
+
+.body{
+    color: rgb(248, 232, 0);
+}
+
+.background{
+background-color: rgb(126, 190, 126);
+}
+
+.list{
+    list-style-type: upper-roman;
+}
+

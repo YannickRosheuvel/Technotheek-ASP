@@ -19,8 +19,6 @@ namespace Technotheek.net_Core.ViewModels
         public string Album { get; set; }
         [Required]
         public string Artist { get; set; }
-        [Required]
-        public string Length { get; set; }
         public string SongLink { get; set; }
         public int ID { get; set; }
     }

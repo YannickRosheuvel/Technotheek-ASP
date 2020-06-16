@@ -51,7 +51,6 @@ namespace TechnotheekWeb.DAL
             }
             else
             {
-                //login.Message = "Username or Password incorrect.";
                 con.Close();
             }
             return GetUserData(0);
@@ -85,7 +84,7 @@ namespace TechnotheekWeb.DAL
             return user;
         }
 
-        public void Registration(RegisterViewModel user)
+        public RegisterViewModel Registration(RegisterViewModel user)
         {
 
             SqlCommand cmd = new SqlCommand(@"INSERT INTO [dbo].[User]
@@ -114,9 +113,10 @@ namespace TechnotheekWeb.DAL
             con.Open();
             cmd.ExecuteNonQuery();
             con.Close();
+            return user;
         }
 
-        public void InsertImage(User user, int userID)
+        public User InsertImage(User user, int userID)
         {
             SqlCommand cmd = new SqlCommand(@"UPDATE [dbo].[User] SET PictureLocation = @insertSongPath WHERE ID = @userID", con);
             cmd.Parameters.AddWithValue("@insertSongPath", user.PictureLocation);
@@ -124,6 +124,7 @@ namespace TechnotheekWeb.DAL
             con.Open();
             cmd.ExecuteNonQuery();
             con.Close();
+            return user;
         }
 
         public string GetUserPicture(int userID)

@@ -165,9 +165,12 @@ namespace TechnotheekWeb.Controllers
 
         public IActionResult Add(int selectedPlaylist, int selectedSong) 
         {
+            PlaylistSongs playlistSongs = new PlaylistSongs();
             try
             {
-                playlistContainer.AddSongPlaylist(selectedSong, selectedPlaylist);
+                playlistSongs.playlistID = selectedPlaylist;
+                playlistSongs.songID = selectedSong;
+                playlistContainer.AddSongPlaylist(playlistSongs);
                 TempData["SuccesOrNot"] = "Song saved to playlist!";
             }
             catch

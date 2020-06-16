@@ -65,7 +65,7 @@ namespace TechnotheekWeb
         }
 
         //Zet het pad van het nieuw toegevoegde nummer in de database
-        public void AddNewSong(SongCreateViewModel songCreateViewModel)
+        public SongCreateViewModel AddNewSong(SongCreateViewModel songCreateViewModel)
         {
             SqlCommand cmd = new SqlCommand(@"INSERT INTO[dbo].[Song] (Name, SongLink, GenreID, ArtistID, AlbumID) values (@NameSong , @SongPath, @Genre, @Artist, @Album)", con);
             cmd.Parameters.AddWithValue("@NameSong", songCreateViewModel.Name);
@@ -73,19 +73,19 @@ namespace TechnotheekWeb
             cmd.Parameters.AddWithValue("@Genre", AddGenreID(songCreateViewModel));
             cmd.Parameters.AddWithValue("@Artist", AddArtistID(songCreateViewModel));
             cmd.Parameters.AddWithValue("@Album", AddAlbumID(songCreateViewModel));
-            //cmd.Parameters.AddWithValue("@Album", songCreateViewModel.Album);
             con.Open();
             cmd.ExecuteNonQuery();
             con.Close();
+            return songCreateViewModel;
         }
 
         public int AddAlbumID(SongCreateViewModel songCreateViewModel)
         {
             int AlbumID = 0;
 
-            SqlCommand cmd = new SqlCommand(@"insert into Album (Name)
-                                            Select @Name Where not exists(select * from Album where Name = @Name)", con);
-            SqlCommand read = new SqlCommand(@"SELECT * FROM [Album] WHERE Name = @Name", con);
+            SqlCommand cmd = new SqlCommand(@"insert into Album (AlbumName)
+                                            Select @Name Where not exists(select * from Album where AlbumName = @Name)", con);
+            SqlCommand read = new SqlCommand(@"SELECT * FROM [Album] WHERE AlbumName = @Name", con);
             cmd.Parameters.AddWithValue("@Name", songCreateViewModel.Album);
             read.Parameters.AddWithValue("@Name", songCreateViewModel.Album);
             con.Open();
@@ -103,7 +103,7 @@ namespace TechnotheekWeb
         {
             int GenreID = 0;
 
-            SqlCommand read = new SqlCommand(@"SELECT * FROM [Genre] WHERE Name = @Name", con);
+            SqlCommand read = new SqlCommand(@"SELECT * FROM [Genre] WHERE GenreName = @Name", con);
             read.Parameters.AddWithValue("@Name", songCreateViewModel.Genre);
             con.Open();
             SqlDataReader reader = read.ExecuteReader();
@@ -119,9 +119,9 @@ namespace TechnotheekWeb
         {
             int ArtistID = 0;
 
-            SqlCommand cmd = new SqlCommand(@"insert into Artist (Name)
-                                            Select @Name Where not exists(select * from Artist where Name = @Name)", con);
-            SqlCommand read = new SqlCommand(@"SELECT * FROM [Artist] WHERE Name = @Name", con);
+            SqlCommand cmd = new SqlCommand(@"insert into Artist (ArtistName)
+                                            Select @Name Where not exists(select * from Artist where ArtistName = @Name)", con);
+            SqlCommand read = new SqlCommand(@"SELECT * FROM [Artist] WHERE ArtistName = @Name", con);
             cmd.Parameters.AddWithValue("@Name", songCreateViewModel.Artist);
             read.Parameters.AddWithValue("@Name", songCreateViewModel.Artist);
             con.Open();

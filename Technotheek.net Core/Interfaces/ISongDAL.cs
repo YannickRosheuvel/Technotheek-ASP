@@ -13,7 +13,7 @@ namespace TechnotheekWeb.Interfaces
 {
     public interface ISongDAL
     {
-        void AddNewSong(SongCreateViewModel songCreateViewModel);
+        SongCreateViewModel AddNewSong(SongCreateViewModel songCreateViewModel);
         string GetPathOfSelectedSong(string selectedSong);
         List<Song> GetAllSongs();
         List<Song> LookUpSong(Song bel);

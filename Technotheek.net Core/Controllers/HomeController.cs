@@ -18,15 +18,9 @@ namespace Technotheek.net_Core.Controllers
     {
         static UserDAL userDAL = new UserDAL();
         UserContainer userContainer = new UserContainer(userDAL);
-        private readonly ILogger<HomeController> _logger;
         User user = new User();
 
         static User currentUser;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
 
         const string SessionName = "No name found";
 
