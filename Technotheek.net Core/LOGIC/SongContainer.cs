@@ -25,9 +25,9 @@ namespace TechnotheekWeb.Containers
             {
                 return songDAL.GetAllSongs();
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
 
         }
@@ -39,9 +39,9 @@ namespace TechnotheekWeb.Containers
             {
                 return songDAL.GetPathOfSelectedSong(selectedSong);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -51,9 +51,9 @@ namespace TechnotheekWeb.Containers
             {
                 return songDAL.LookUpSong(sb);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -63,9 +63,9 @@ namespace TechnotheekWeb.Containers
             {
                 return songDAL.AddNewSong(viewModel);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -75,9 +75,9 @@ namespace TechnotheekWeb.Containers
             {
                 return songDAL.GetPlayingSongInfo(songLink);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
         }
     }

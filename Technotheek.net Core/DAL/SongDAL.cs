@@ -21,11 +21,12 @@ namespace TechnotheekWeb
         //Zoekt naar nummer op basis van de input van de gebruiker
         public List<Song> LookUpSong(Song song)
         {
-            Song slb = new Song();
             DynamicParameters param = new DynamicParameters();
             param.Add("@Name", song.Name);
+
             List<Song> list = con.Query<Song>("LookUpSong", param, commandType: CommandType.StoredProcedure).ToList();
             songList = list;
+
             return new List<Song>(songList);
         }
 
@@ -33,7 +34,9 @@ namespace TechnotheekWeb
         {
             SqlCommand cmd = new SqlCommand("select * from [Song] where Name like @SelectedSong", con);
             cmd.Parameters.AddWithValue("@SelectedSong", selectedSong);
+
             con.Open();
+
             SqlDataReader dr = cmd.ExecuteReader();
             string SongLocation = "";
 
@@ -41,6 +44,7 @@ namespace TechnotheekWeb
             {
                 SongLocation = (dr["SongLink"].ToString());
             }
+
             con.Close();
             return SongLocation;
         }
@@ -50,7 +54,9 @@ namespace TechnotheekWeb
             List<Song> Song = new List<Song>();
 
             SqlCommand cmd = new SqlCommand("select * from [Song]", con); 
+
             con.Open();
+
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -59,6 +65,7 @@ namespace TechnotheekWeb
                 song.ID = Convert.ToInt32((reader["ID"]));
                 Song.Add(song);
             }
+
             con.Close();
 
             return Song;
@@ -73,9 +80,13 @@ namespace TechnotheekWeb
             cmd.Parameters.AddWithValue("@Genre", AddGenreID(songCreateViewModel));
             cmd.Parameters.AddWithValue("@Artist", AddArtistID(songCreateViewModel));
             cmd.Parameters.AddWithValue("@Album", AddAlbumID(songCreateViewModel));
+
             con.Open();
+
             cmd.ExecuteNonQuery();
+
             con.Close();
+
             return songCreateViewModel;
         }
 
@@ -85,9 +96,12 @@ namespace TechnotheekWeb
 
             SqlCommand cmd = new SqlCommand(@"insert into Album (AlbumName)
                                             Select @Name Where not exists(select * from Album where AlbumName = @Name)", con);
+
             SqlCommand read = new SqlCommand(@"SELECT * FROM [Album] WHERE AlbumName = @Name", con);
+
             cmd.Parameters.AddWithValue("@Name", songCreateViewModel.Album);
             read.Parameters.AddWithValue("@Name", songCreateViewModel.Album);
+
             con.Open();
             cmd.ExecuteNonQuery();
             SqlDataReader reader = read.ExecuteReader();
@@ -105,13 +119,17 @@ namespace TechnotheekWeb
 
             SqlCommand read = new SqlCommand(@"SELECT * FROM [Genre] WHERE GenreName = @Name", con);
             read.Parameters.AddWithValue("@Name", songCreateViewModel.Genre);
+
             con.Open();
+
             SqlDataReader reader = read.ExecuteReader();
             while (reader.Read())
             {
                 GenreID = Convert.ToInt32((reader["ID"].ToString()));
             }
+
             con.Close();
+
             return GenreID;
         }
 
@@ -136,7 +154,6 @@ namespace TechnotheekWeb
         }
 
 
-        //joins
         public Song GetPlayingSongInfo(string songLink)
         {
             Song song = new Song();
@@ -144,10 +161,11 @@ namespace TechnotheekWeb
             SqlCommand cmd = new SqlCommand("Select * from Song Inner Join Artist on Song.SongLink=@SongLink " +
                 " Inner Join Album on Song.SongLink=@SongLink" +
                 " Inner Join Genre on Song.SongLink=@SongLink", con);
+
             cmd.Parameters.AddWithValue("@SongLink", songLink);
-            //cmd.Parameters.AddWithValue("@SongLink", songLink);
-            //cmd.Parameters.AddWithValue("@SongLink", songLink);
+
             con.Open();
+
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -156,6 +174,7 @@ namespace TechnotheekWeb
                 song.Genre = (reader["GenreName"].ToString());
                 song.Album = (reader["AlbumName"].ToString());
             }
+
             con.Close();
 
             return song;

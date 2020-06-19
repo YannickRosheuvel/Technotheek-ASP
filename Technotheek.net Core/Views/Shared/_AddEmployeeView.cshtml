@@ -1,0 +1,166 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+    <form>
+        <table>
+            <tr>
+                <td>
+                    Function Space
+                </td>
+                <td>
+                    <input class="form-control" type="text" value="" name="FunctionSpace" id="txtSpace" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Function Type
+                </td>
+                <td>
+                    <input class="form-control" type="text" value="" name="FunctionType" id="txtType" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Rank
+                </td>
+                <td>
+                    <input class="form-control" type="text" value="" name="Rank" id="txtRank" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Employee Name
+                </td>
+                <td>
+                    <input class="form-control" type="text" value="" name="EmployeeName" id="txtName" />
+                </td>
+            </tr>
+        </table>
+
+        @*<div class="form-group">
+            <label asp-for="Type" class="control-label"></label>
+            <select asp-for="Type"
+                    class="form-control"
+                    asp-items="Html.GetEnumSelectList<CustomerTypeEnum>()">
+                <option>Select type ...</option>
+            </select>
+            <span asp-validation-for="Type" class="text-danger"></span>
+        </div>*@
+
+        <button type="button" class="btn btn-primary" id="btnAddEmployee" value="Save">Create</button>
+
+        <table class="table table-hover table-dark" id="tableEmployees">
+            <thead>
+                <tr>
+                    <th>
+                        Function Type
+                    </th>
+                    <th>
+                        Employee Space
+                    </th>
+                    <th>
+                        Rank
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                </tr>
+            </thead>
+        </table>
+
+
+        <table>
+            <tr>
+                <td>
+                    Rooms
+                </td>
+                <td>
+                    <input class="form-control" type="text" value="" name="Room" id="txtRoom" />
+                </td>
+            </tr>
+        </table>
+
+        <button type="button" class="btn btn-primary" id="btnAddRoom" value="Save">Create</button>
+
+        <table class="table table-hover table-dark" id="tableRooms">
+            <thead>
+                <tr>
+                    <th>
+                        Rooms
+                    </th>
+                </tr>
+            </thead>
+        </table>
+
+        <button type="button" class="btn btn-primary" id="btnSaveEmployees" value="Save">Run Program</button>
+
+        <button type="submit" class="btn btn-primary" asp-action="FillRooms" asp-controller="Admin" value="Save">Run Program without input</button>
+
+    </form>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnAddRoom").click(function () {
+            AddRoom();
+        });
+    });
+
+        $(document).ready(function () {
+        $("#btnSaveEmployees").click(function () {
+            SaveEmployees();
+        });
+    });
+
+        $("#btnAddEmployee").click(function () {
+            AddEmployee();
+        });
+
+    function AddEmployee() {
+        var Employee = "<tr><td>" + $("#txtSpace").val() + "</td><td>" + $("#txtType").val() + "</td><td>" + $("#txtRank").val() + "</td><td>" + $("#txtName").val() + "</td></tr>";
+        $("#tableEmployees").last().append(Employee);
+        $("#txtSpace").val("");
+        $("#txtType").val("");
+        $("#txtRank").val("");
+        $("#txtName").val("");
+    }
+
+        function AddRoom() {
+        var Room = "<tr><td>" + $("#txtRoom").val() + "</td></tr>";
+        $("#tableRooms").last().append(Room);
+        $("#txtRoom").val("");
+    }
+
+    function SaveEmployees() {
+        var listOfEmployees = new Array();
+        $("#tableEmployees").find("tr:gt(0)").each(function () {
+            var FunctionType = $(this).find("td:eq(0)").text();
+            var EmployeeSpace = $(this).find("td:eq(1)").text();
+            var Name = $(this).find("td:eq(2)").text();
+            var Rank = $(this).find("td:eq(3)").text();
+
+            var sfdsfsd = {};
+
+        });
+
+        $.ajax({
+            async: true,
+            type: 'POST',
+            dataType: 'JSON',
+            contentType: 'application/json; charset=utf=8',
+            url: '/Admin/FillRooms',
+            data: JSON.stringify(listOfEmployees),
+            succes: function (data) {
+                alert(data);
+            },
+            error: function () {
+                alert("Something went wrong");
+            }
+
+            
+        });
+    }
+</script>

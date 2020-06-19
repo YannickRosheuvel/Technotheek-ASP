@@ -16,17 +16,21 @@
     </div>
 
     <partial name="_LoginPartial" />
-}
-else
-{
-    <div class="text-center">
-        <h1 class="display-4">Welcome Back, @currentUser.FirstName</h1>
-        <p>This is Technotheek lets get started</p>
-    </div>
+    <form asp-action="FillRooms" asp-controller="Admin">
+        <button type="submit" class="btn btn-primary">Change Profile Picture</button>
+    </form>
+        }
+        else
+        {
+        <div class="text-center">
+            <h1 class="display-4">Welcome Back, @currentUser.FirstName</h1>
+            <p>This is Technotheek lets get started</p>
+        </div>
 
-    <div class="text-center">
-        <button type="submit" id="open" class="btn btn-primary">Modify recommendation settings</button>
-    </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Change Profile Picture</button>
+        </div>
+
 }
 
 <div class="container">
@@ -316,3 +320,12 @@ else
 
         }
 </script>
+
+@if (ViewBag.SuccesOrNot != null)
+{
+    <script type="text/javascript">
+    window.onload = function () {
+        alert("@ViewBag.SuccesOrNot")
+    };
+    </script>
+}

@@ -8,7 +8,7 @@ using TechnotheekWeb.Models;
 namespace TechnotheekUnitTests
 {
     [TestClass]
-    public class UserTests
+    public class RoomTest
     {
         [TestMethod]
         public void Retreive_The_Correct_User_Data()

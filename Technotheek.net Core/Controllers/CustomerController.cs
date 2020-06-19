@@ -32,10 +32,9 @@ namespace TechnotheekWeb.Controllers
         SongViewModel songViewModel = new SongViewModel();
         Song song = new Song();
         User user = new User();
-        // GET: Costumer
 
         static User currentUser;
-
+        static string currentPlaylist;
         static List<Song> currentSongs;
 
         private readonly IWebHostEnvironment hostingEnviroment;
@@ -70,6 +69,7 @@ namespace TechnotheekWeb.Controllers
             song.Name = NameSong;
             var model = songContainer.SearchSong(song);
             songViewModel.SongsFound =  "Songs found: " + model.Count.ToString();
+
             return View("Discover", model);
         }
 
@@ -77,6 +77,7 @@ namespace TechnotheekWeb.Controllers
         {
             ViewBag.SelectedSong = songContainer.GetSelectedSongPath(selectedSong);
             ViewBag.SongInfo = songContainer.GetSongInfo(songContainer.GetSelectedSongPath(selectedSong));
+
             return Customer();
         }
 
@@ -86,6 +87,7 @@ namespace TechnotheekWeb.Controllers
             {
                 ViewBag.Playlists = playlistContainer.GetPlaylists(currentUser.ID);
                 ViewBag.User = currentUser;
+
                 return View();
             }
             else
@@ -108,8 +110,8 @@ namespace TechnotheekWeb.Controllers
             {
                 currentUser = user;
                 ViewBag.User = user;
+
                 return RedirectToAction("Index", "Home", user);
-                //return View();
             }
             else
             {
@@ -137,8 +139,10 @@ namespace TechnotheekWeb.Controllers
                 {
                     string uploadsFolder = Path.Combine(hostingEnviroment.WebRootPath, "ProfilePictures");
                     user.PictureLocation = Guid.NewGuid().ToString() + "_" + model.Image.FileName;
+
                     string filePath = Path.Combine(uploadsFolder, user.PictureLocation);
                     model.Image.CopyTo(new FileStream(filePath, FileMode.Create));
+
                     userContainer.ReturnInsertImage(user, currentUser.ID);
                 }
             }
@@ -146,20 +150,26 @@ namespace TechnotheekWeb.Controllers
         }
 
         //Opent een playlist naar keuze met alle toebehorende nummers die daar in zitten
-        public IActionResult Open(int selectedPlaylist)
+        public IActionResult Open(int selectedPlaylistID, string selectedPlaylistName)
         {
             ViewBag.User = currentUser;
-            ViewBag.Playlist = selectedPlaylist;
-            var model = playlistContainer.RetrievePlaylistSongs(selectedPlaylist);
+            ViewBag.Playlist = selectedPlaylistName;
+
+            currentPlaylist = ViewBag.Playlist;
+
+            var model = playlistContainer.RetrievePlaylistSongs(selectedPlaylistID);
             currentSongs = model;
+
             return View("PlaylistSongs", model);
         }
 
         public ViewResult PlaySong(string selectedSong)
         {
+            ViewBag.Playlist = currentPlaylist;
             ViewBag.SongInfo = songContainer.GetSongInfo(songContainer.GetSelectedSongPath(selectedSong));
             ViewBag.User = currentUser;
             ViewBag.SelectedSong = songContainer.GetSelectedSongPath(selectedSong);
+
             return View("PlaylistSongs", currentSongs);
         }
 
@@ -171,11 +181,11 @@ namespace TechnotheekWeb.Controllers
                 playlistSongs.playlistID = selectedPlaylist;
                 playlistSongs.songID = selectedSong;
                 playlistContainer.AddSongPlaylist(playlistSongs);
-                TempData["SuccesOrNot"] = "Song saved to playlist!";
+                ViewBag.SuccesOrNot = "Song saved to playlist!";
             }
             catch
             {
-                TempData["SuccesOrNot"] = "Song did not save to playlist";
+                ViewBag.SuccesOrNot = "ERROR! Song did not save to playlist";
             }
             
             return Customer();

@@ -24,7 +24,7 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Open", "Open", "Customer", new { selectedPlaylist = item.ID }) |
+                    @Html.ActionLink("Open", "Open", "Customer", new { selectedPlaylistID = item.ID, selectedPlaylistName = item.Name }) |
                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                 </td>
             </tr>

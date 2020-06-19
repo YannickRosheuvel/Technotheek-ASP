@@ -24,9 +24,9 @@ namespace Technotheek.net_Core.Containers
             {
                 playlistDAL.AddNewPlaylist(name, ID);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
 
         }
@@ -37,9 +37,9 @@ namespace Technotheek.net_Core.Containers
             {
                 return playlistDAL.RetrievePlaylists(userID);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
 
         }
@@ -50,9 +50,9 @@ namespace Technotheek.net_Core.Containers
             {
                 return playlistDAL.GetPlaylistSongs(selectedPlaylist);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
 
         }
@@ -63,9 +63,9 @@ namespace Technotheek.net_Core.Containers
             {
                 return playlistDAL.AddSongToPlaylist(playlistSongs);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
 
         }

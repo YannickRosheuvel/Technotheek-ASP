@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,9 +26,9 @@ namespace TechnotheekWeb.Containers
             {
                 return userDAL.Registration(user);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -37,9 +38,9 @@ namespace TechnotheekWeb.Containers
             {
                 return userDAL.Login(model);
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -49,9 +50,9 @@ namespace TechnotheekWeb.Containers
             {
                 return userDAL.GetUserData(userID);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -61,9 +62,9 @@ namespace TechnotheekWeb.Containers
             {
                 return userDAL.InsertImage(user, userID);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -73,9 +74,9 @@ namespace TechnotheekWeb.Containers
             {
                 return userDAL.GetUserPicture(userID);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
         }
 
@@ -85,9 +86,9 @@ namespace TechnotheekWeb.Containers
             {
                 return userDAL.GetUserPicture(userID);
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception(ex.ToString());
             }
         }
     }

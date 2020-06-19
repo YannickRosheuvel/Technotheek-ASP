@@ -35,14 +35,16 @@ namespace TechnotheekWeb.Controllers
                 try
                 {
                     userContainer.AddUser(user);
-                    //pop up conformation
+                    ViewBag.SuccesOrNot = "You succesfully created an account!";
                     return RedirectToAction("Login", "Account");
                 }
-                catch (Exception ex)
+                catch
                 {
-                    return RedirectToAction("Register", "Account", ex);
+                    ViewBag.SuccesOrNot = "Your account could not be created!";
+                    return RedirectToAction("Register", "Account");
                 }
             }
+            ViewBag.SuccesOrNot = "Please enter all required fields!";
             return RedirectToAction("Register", "Account");
         }
 
