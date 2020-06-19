@@ -15,7 +15,6 @@ namespace TechnotheekWeb.DAL
     {
         User user = new User();
 
-        //Logs in the user
         public User Login(LoginViewModel model)
         {
             con.Open();
@@ -30,7 +29,6 @@ namespace TechnotheekWeb.DAL
 
                 for (int i = 0; i < dt.Rows.Count;)
                 {
-                    //login.Message = "You are logged in as " + dt.Rows[i][1].ToString();
                     if (dt.Rows[i]["FunctionType"].ToString() == "Admin")
                     {
                         user.ID = Convert.ToInt32(dt.Rows[i]["ID"]);
@@ -53,6 +51,7 @@ namespace TechnotheekWeb.DAL
             {
                 con.Close();
             }
+
             return GetUserData(0);
         }
 
@@ -61,26 +60,30 @@ namespace TechnotheekWeb.DAL
         {
             User user = new User();
 
-            SqlCommand getUserData = new SqlCommand("SELECT * FROM [User] WHERE ID = @User_ID", con);
-            getUserData.Parameters.AddWithValue("User_ID", userID);
-
-            con.Open();
-            dataReader = getUserData.ExecuteReader();
-
-            if (dataReader.Read())
+            if (userID != 0)
             {
-                user.Username = dataReader["Gebruikersnaam"].ToString();
-                user.Password = dataReader["Wachtwoord"].ToString();
-                user.Contact = Convert.ToInt32(dataReader["Contact"]);
-                user.FirstName = dataReader["FirstName"].ToString();
-                user.LastName = dataReader["LastName"].ToString();
-                user.Street = dataReader["Street"].ToString();
-                user.StreetNmr = Convert.ToInt32(dataReader["StreetNmr"]);
-                user.City = dataReader["City"].ToString();
-                user.ID = Int32.Parse(dataReader["ID"].ToString());
-                user.FunctionType = (dataReader["FunctionType"].ToString());
+                SqlCommand getUserData = new SqlCommand("SELECT * FROM [User] WHERE ID = @User_ID", con);
+                getUserData.Parameters.AddWithValue("User_ID", userID);
+
+                con.Open();
+                dataReader = getUserData.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    user.Username = dataReader["Gebruikersnaam"].ToString();
+                    user.Password = dataReader["Wachtwoord"].ToString();
+                    user.Contact = Convert.ToInt32(dataReader["Contact"]);
+                    user.FirstName = dataReader["FirstName"].ToString();
+                    user.LastName = dataReader["LastName"].ToString();
+                    user.Street = dataReader["Street"].ToString();
+                    user.StreetNmr = Convert.ToInt32(dataReader["StreetNmr"]);
+                    user.City = dataReader["City"].ToString();
+                    user.ID = Int32.Parse(dataReader["ID"].ToString());
+                    user.FunctionType = (dataReader["FunctionType"].ToString());
+                }
+                con.Close();
+                return user;
             }
-            con.Close();
             return user;
         }
 

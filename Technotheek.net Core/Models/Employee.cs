@@ -8,10 +8,10 @@ namespace Technotheek.net_Core.Models
     public class Employee
     {
 
-        public Employee(EmployeeSpace space, string name, FunctionType functionType)
+        public Employee(EmployeeSpace employeeSpace, string name, FunctionType functionType)
         {
             this.Name = name;
-            this.employeeSpace = space;
+            this.employeeSpace = employeeSpace;
             this.functionType = functionType;
         }
 

@@ -23,15 +23,14 @@ namespace TechnotheekWeb.Controllers
 {
     public class CustomerController : Controller
     {
-        static SongDAL songDAL = new SongDAL();
-        static UserDAL userDAL = new UserDAL();
-        static PlaylistDAL playlistDAL = new PlaylistDAL();
-        SongContainer songContainer = new SongContainer(songDAL);
-        UserContainer userContainer = new UserContainer(userDAL);
-        PlaylistContainer playlistContainer = new PlaylistContainer(playlistDAL);
-        SongViewModel songViewModel = new SongViewModel();
-        Song song = new Song();
-        User user = new User();
+        static SongDAL songDAL;
+        static UserDAL userDAL;
+        static PlaylistDAL playlistDAL;
+        SongContainer songContainer;
+        UserContainer userContainer;
+        PlaylistContainer playlistContainer;
+        SongViewModel songViewModel;
+        Song song;
 
         static User currentUser;
         static string currentPlaylist;
@@ -42,6 +41,14 @@ namespace TechnotheekWeb.Controllers
         //HostingEnviroment word gebruikt voor het storen van fotos
         public CustomerController(IWebHostEnvironment hostingEnviroment)
         {
+            songDAL = new SongDAL();
+            userDAL = new UserDAL();
+            playlistDAL = new PlaylistDAL();
+            songContainer = new SongContainer(songDAL);
+            userContainer = new UserContainer(userDAL);
+            playlistContainer = new PlaylistContainer(playlistDAL);
+            songViewModel = new SongViewModel();
+            song = new Song();
 
             this.hostingEnviroment = hostingEnviroment;
         }
@@ -54,6 +61,7 @@ namespace TechnotheekWeb.Controllers
             {
                 ViewBag.User = currentUser;
                 ViewBag.Playlists = playlistContainer.GetPlaylists(currentUser.ID);
+
                 return View("Discover", model);
                 //return View();
             }

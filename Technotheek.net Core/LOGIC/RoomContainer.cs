@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Technotheek.net_Core.Interfaces;
 using Technotheek.net_Core.Models;
-using static Technotheek.net_Core.Models.RoomSpace.Rooms;
+using static Technotheek.net_Core.Models.RoomSpace.Room;
 
 namespace Technotheek.net_Core.LOGIC
 {
@@ -22,14 +22,20 @@ namespace Technotheek.net_Core.LOGIC
             spaceLeftOver = 0;
         }
 
+        public List<Employee> ReturnEmployees()
+        {
+            return new List<Employee>(employeesInRoom);
+        }
+
+        // Voegt als het mogelijk is een employee aan de kamer toe.
         public List<Employee> AddToRoom(Employee employee, SpaceBuilding roomSpace)
         {
             if(employeesInRoom.Count == 0)
             {
-                spaceLeftOver = Convert.ToInt32(roomSpace) - spaceTaken;
+                spaceLeftOver = Convert.ToInt32(roomSpace);
             }
 
-            if (CheckCompatibility(employee) && CheckRoom(employee))
+            if (CheckCompatibility(employee, employeesInRoom) && CheckRoom(employee, spaceLeftOver))
             {
                 employeesInRoom.Add(employee);
                 employee.Added = true;
@@ -41,12 +47,13 @@ namespace Technotheek.net_Core.LOGIC
             }
         }
 
-        public bool CheckRoom(Employee employee)
+        // Checkt of er nog genoeg bechikbare ruimte in de kamer is
+        public bool CheckRoom(Employee employee, int spaceOver)
         {
-            if (spaceLeftOver - Convert.ToInt32(employee.employeeSpace) >= 0)
+            if (spaceOver - Convert.ToInt32(employee.employeeSpace) >= 0)
             {
                 spaceTaken = spaceTaken + Convert.ToInt32(employee.employeeSpace);
-                spaceLeftOver = spaceLeftOver - spaceTaken;
+                spaceLeftOver = spaceOver - spaceTaken;
                 spaceTaken = 0;
                 return true;
             }
@@ -56,11 +63,11 @@ namespace Technotheek.net_Core.LOGIC
             }
         }
 
-        public bool CheckCompatibility(Employee employeeToCheck)
+        // Checkt of bepaalde employees wel bij elkaar kunnen
+        public bool CheckCompatibility(Employee employeeToCheck, List<Employee> employeesInRoom)
         {
             foreach (Employee employeeInRoom in employeesInRoom)
             {
-                //switch
                 if (employeeToCheck.functionType == Models.Employee.FunctionType.ProjectManager && employeeInRoom.functionType == Models.Employee.FunctionType.ProjectManager)
                 {
                     return false;

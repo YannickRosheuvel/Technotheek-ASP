@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Technotheek.net_Core.Models.RoomSpace
 {
-    public class Rooms
+    public class Room
     {
-        public Rooms(SpaceBuilding buildingSpace)
+        public Room(SpaceBuilding buildingSpace)
         {
             this.buildingSpace = buildingSpace;
         }

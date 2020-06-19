@@ -71,6 +71,33 @@ namespace TechnotheekWeb
             return Song;
         }
 
+        // haalt informatie op van het spelende nummer
+        public Song GetPlayingSongInfo(string songLink)
+        {
+            Song song = new Song();
+
+            SqlCommand cmd = new SqlCommand("Select * from Song Inner Join Artist on Song.SongLink=@SongLink " +
+                " Inner Join Album on Song.SongLink=@SongLink" +
+                " Inner Join Genre on Song.SongLink=@SongLink", con);
+
+            cmd.Parameters.AddWithValue("@SongLink", songLink);
+
+            con.Open();
+
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                song.Name = (reader["Name"].ToString());
+                song.Artist = (reader["ArtistName"].ToString());
+                song.Genre = (reader["GenreName"].ToString());
+                song.Album = (reader["AlbumName"].ToString());
+            }
+
+            con.Close();
+
+            return song;
+        }
+
         //Zet het pad van het nieuw toegevoegde nummer in de database
         public SongCreateViewModel AddNewSong(SongCreateViewModel songCreateViewModel)
         {
@@ -151,33 +178,6 @@ namespace TechnotheekWeb
             }
             con.Close();
             return ArtistID;
-        }
-
-
-        public Song GetPlayingSongInfo(string songLink)
-        {
-            Song song = new Song();
-
-            SqlCommand cmd = new SqlCommand("Select * from Song Inner Join Artist on Song.SongLink=@SongLink " +
-                " Inner Join Album on Song.SongLink=@SongLink" +
-                " Inner Join Genre on Song.SongLink=@SongLink", con);
-
-            cmd.Parameters.AddWithValue("@SongLink", songLink);
-
-            con.Open();
-
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read())
-            {
-                song.Name = (reader["Name"].ToString());
-                song.Artist = (reader["ArtistName"].ToString());
-                song.Genre = (reader["GenreName"].ToString());
-                song.Album = (reader["AlbumName"].ToString());
-            }
-
-            con.Close();
-
-            return song;
         }
     }
 }

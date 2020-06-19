@@ -16,13 +16,16 @@ namespace Technotheek.net_Core.Controllers
 {
     public class HomeController : Controller
     {
-        static UserDAL userDAL = new UserDAL();
-        UserContainer userContainer = new UserContainer(userDAL);
-        User user = new User();
+        static UserDAL userDAL;
+        UserContainer userContainer;
 
         static User currentUser;
 
-        const string SessionName = "No name found";
+        public HomeController()
+        {
+            userDAL = new UserDAL();
+            userContainer = new UserContainer(userDAL);
+        }
 
         //De user word mee gegeven met de Index en vervolgens in een static currentUser gestored zodat
         //Zodat de info van de user ter alle tijden in de sessie toegangkelijk is.
@@ -64,12 +67,6 @@ namespace Technotheek.net_Core.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-        }
-
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

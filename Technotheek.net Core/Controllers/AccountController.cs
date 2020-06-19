@@ -16,10 +16,18 @@ namespace TechnotheekWeb.Controllers
 {
     public class AccountController : Controller
     {
-        static UserDAL userDAL = new UserDAL();
-        Login login = new Login();
-        User user = new User();
-        UserContainer userContainer = new UserContainer(userDAL);
+        static UserDAL userDAL;
+        Login login;
+        User user;
+        UserContainer userContainer;
+
+        public AccountController()
+        {
+            userDAL = new UserDAL();
+            login = new Login();
+            user = new User();
+            userContainer = new UserContainer(userDAL);
+        }
 
         public ActionResult Login()
         {
@@ -53,6 +61,12 @@ namespace TechnotheekWeb.Controllers
             return View();
         }
 
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return View("Login");
+        }
+
         //Verified de user (kijkt in de database of de gegeven parameters matchen) 
         //en haalt vervolgens de info op en zet ze in een session
         public ActionResult Verify(LoginViewModel model)
@@ -74,7 +88,7 @@ namespace TechnotheekWeb.Controllers
 
                 if (model.IsAdmin == true)
                 {
-                    return RedirectToAction("Admin", "Admin", user);
+                    return RedirectToAction("Index", "Admin", user);
                 }
                 if (model.IsAdmin == false && login.AdminOrCostumer == false)
                 {

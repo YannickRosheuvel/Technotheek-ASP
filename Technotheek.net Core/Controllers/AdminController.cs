@@ -20,23 +20,37 @@ namespace TechnotheekWeb.Controllers
 {
     public class AdminController : Controller
     {
-        BuildingContainer building = new BuildingContainer();
-        static SongDAL songDAL = new SongDAL();
-        SongContainer songContainer = new SongContainer(songDAL);
-        List<RoomContainer> roomContainers = new List<RoomContainer>();
+        BuildingContainer buildingContainer;
+        static SongDAL songDAL;
+        SongContainer songContainer;
+        List<RoomContainer> roomContainers;
+        List<Employee> employeesInRoom;
+        private readonly IWebHostEnvironment hostingEnviroment;
 
-        private List<Rooms> rooms = new List<Rooms>
+        static User currentAdmin;
+
+        public AdminController(IWebHostEnvironment hostingEnviroment)
         {
-            new Rooms(Rooms.SpaceBuilding.BigBuilding),
-            new Rooms(Rooms.SpaceBuilding.SmallBuilding),
-            new Rooms(Rooms.SpaceBuilding.MediumBuilding),
-            new Rooms(Rooms.SpaceBuilding.MediumBuilding),
-            new Rooms(Rooms.SpaceBuilding.BigBuilding),
-            new Rooms(Rooms.SpaceBuilding.BigBuilding),
-            new Rooms(Rooms.SpaceBuilding.MediumBuilding),
-            new Rooms(Rooms.SpaceBuilding.SmallBuilding),
-            new Rooms(Rooms.SpaceBuilding.BigBuilding),
-            new Rooms(Rooms.SpaceBuilding.BigBuilding)
+            employeesInRoom = new List<Employee>();
+            buildingContainer = new BuildingContainer();
+            songDAL = new SongDAL();
+            songContainer = new SongContainer(songDAL);
+            roomContainers = new List<RoomContainer>();
+            this.hostingEnviroment = hostingEnviroment;
+        }
+
+        private List<Room> rooms = new List<Room>
+        {
+            new Room(Room.SpaceBuilding.BigBuilding),
+            new Room(Room.SpaceBuilding.SmallBuilding),
+            new Room(Room.SpaceBuilding.MediumBuilding),
+            new Room(Room.SpaceBuilding.MediumBuilding),
+            new Room(Room.SpaceBuilding.BigBuilding),
+            new Room(Room.SpaceBuilding.BigBuilding),
+            new Room(Room.SpaceBuilding.MediumBuilding),
+            new Room(Room.SpaceBuilding.SmallBuilding),
+            new Room(Room.SpaceBuilding.BigBuilding),
+            new Room(Room.SpaceBuilding.BigBuilding)
 
         };
 
@@ -62,27 +76,51 @@ namespace TechnotheekWeb.Controllers
 
         };
 
-        static User currentAdmin;
-        private readonly IWebHostEnvironment hostingEnviroment;
-
-        public AdminController(IWebHostEnvironment hostingEnviroment)
-        {
-            this.hostingEnviroment = hostingEnviroment;
-        }
-
-        [HttpGet]
-        public IActionResult Admin(User user)
+        public IActionResult Index(User user)
         {
             if (HttpContext.Session.GetString("ID") != null)
             {
                 currentAdmin = user;
                 ViewBag.User = user;
+
+                return RedirectToAction("Index", "Home", user);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Admin(List<RoomContainer> rooms)
+        {
+            if (HttpContext.Session.GetString("ID") != null)
+            {
+                ViewBag.Rooms = rooms;
+                ViewBag.User = currentAdmin;
                 return View();
             }
             else
             {
                 return RedirectToAction("Login", "Customer");
             }
+        }
+
+        public IActionResult SongAdmin()
+        {
+            ViewBag.User = currentAdmin;
+            return View("Admin");
+        }
+
+        public IActionResult ViewSelectedRoom()
+        {
+            RoomContainer selectedRoom = buildingContainer.ReturnRooms()[0];
+
+            foreach (Employee employee in selectedRoom.ReturnEmployees())
+            {
+                employeesInRoom.Add(employee);
+            }
+            return View();
         }
 
         [HttpPost]
@@ -108,16 +146,14 @@ namespace TechnotheekWeb.Controllers
         public IActionResult FillRooms(IEnumerable<EmployeeDetailsViewModel> listOfEmployeeDataViewModels)
         {
 
-            building.AddEmployees(rooms, employees);
+            buildingContainer.AddEmployees(rooms, employees);
             
-            foreach (RoomContainer currentRoom in building.ReturnRooms())
+            foreach (var currentRoom in buildingContainer.ReturnRooms())
             {
                 roomContainers.Add(currentRoom);
             }
 
-            building.ReturnRooms();
-
-            return Admin(currentAdmin);
+            return Admin(roomContainers);
         }
 
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Technotheek.net_Core.Models.RoomSpace;
 using static Technotheek.net_Core.Models.Employee;
-using static Technotheek.net_Core.Models.RoomSpace.Rooms;
+using static Technotheek.net_Core.Models.RoomSpace.Room;
 
 namespace Technotheek.net_Core.ViewModels
 {
