@@ -50,7 +50,7 @@ namespace Technotheek.net_Core.LOGIC
         {
             foreach (Employee item in employeeList)
             {
-                Employee employee = new Employee(item.employeeSpace, item.Name, item.functionType);
+                Employee employee = new Employee(item.employeeSpace, item.name, item.functionType);
                 givenEmployees.Add(employee);
             }
         }

@@ -5,6 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{
+    var rooms = ViewBag.Rooms as IEnumerable<Technotheek.net_Core.LOGIC.RoomContainer>;
+}
+
+@{
+    var room = "Room";
+}
+
 
 <h2>Add new song</h2>
 
@@ -57,7 +65,43 @@
     </div>
 </form>
 
-<partial name="_AddEmployeeView"/>
+<form asp-action="FillRooms" asp-controller="Admin">
+    <button type="submit" class="btn btn-primary">Change Profile Picture</button>
+</form>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+<table class="table table-hover table-dark">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => room)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (rooms != null)
+        {
+            @foreach (var item in rooms)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => room)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Open", "ViewEmployees", new { employees = item.ReturnEmployees()})
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@*<partial name="_AddEmployeeView" />*@
 
 @section scripts{
 

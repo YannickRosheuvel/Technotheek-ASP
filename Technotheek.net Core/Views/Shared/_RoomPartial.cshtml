@@ -1,0 +1,54 @@
+﻿@{
+    var rooms = ViewBag.Rooms as IEnumerable<Technotheek.net_Core.Models.Employee>;
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@{
+    var name = "Playlists";
+       var employeeSpace = "Playlists";
+       var functionType = "Playlists";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => employeeSpace)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => functionType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (rooms != null) {
+        @foreach (var item in rooms)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.employeeSpace)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.functionType)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>
+

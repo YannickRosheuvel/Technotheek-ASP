@@ -91,14 +91,15 @@ namespace TechnotheekWeb.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult Admin(List<RoomContainer> rooms)
         {
             if (HttpContext.Session.GetString("ID") != null)
             {
                 ViewBag.Rooms = rooms;
                 ViewBag.User = currentAdmin;
-                return View();
+
+                return View("Admin");
             }
             else
             {
@@ -112,15 +113,11 @@ namespace TechnotheekWeb.Controllers
             return View("Admin");
         }
 
-        public IActionResult ViewSelectedRoom()
+        public IActionResult ViewEmployees(List<Employee> employees)
         {
-            RoomContainer selectedRoom = buildingContainer.ReturnRooms()[0];
+            ViewBag.User = currentAdmin;
 
-            foreach (Employee employee in selectedRoom.ReturnEmployees())
-            {
-                employeesInRoom.Add(employee);
-            }
-            return View();
+            return View("Employees", employees);
         }
 
         [HttpPost]
@@ -153,7 +150,9 @@ namespace TechnotheekWeb.Controllers
                 roomContainers.Add(currentRoom);
             }
 
-            return Admin(roomContainers);
+            ViewBag.User = currentAdmin;
+            ViewBag.Rooms = roomContainers;
+            return View("Admin");
         }
 
     }
