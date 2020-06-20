@@ -48,7 +48,7 @@ namespace Technotheek.net_Core.LOGIC
         {
             foreach (Employee item in employeeList)
             {
-                Employee employee = new Employee(item.employeeSpace, item.name, item.functionType, false);
+                Employee employee = new Employee(item.employeeSpace, item.name, item.functionType);
                 givenEmployees.Add(employee);
             }
         }
@@ -69,25 +69,33 @@ namespace Technotheek.net_Core.LOGIC
         // De main functie die alle andere functies oproept om zo veel mogelijk employees toe te voegen.
         public List<RoomContainer> AddEmployees(List<Room> roomList, List<Employee> employeeList)
         {
-            AddEmployeesToList(employeeList);
-
-            AddRoomsToList(roomList);
-
-            List<Employee> sortedEmployees = SortEmployees(givenEmployees);
-
-            List<Room> sortedRooms = SortRooms(givenRooms);
-
-            //Stopt eerst de projectleiders en daarna de grootste in een kamer.
-            foreach (Employee employee in sortedEmployees)
+            try
             {
-                listRooms[i].AddToRoom(employee, sortedRooms[i].buildingSpace);
+                AddEmployeesToList(employeeList);
 
-                AddToNextRoom(employee, givenRooms);
+                AddRoomsToList(roomList);
+
+                List<Employee> sortedEmployees = SortEmployees(givenEmployees);
+
+                List<Room> sortedRooms = SortRooms(givenRooms);
+
+                //Stopt eerst de projectleiders en daarna de grootste in een kamer.
+                foreach (Employee employee in sortedEmployees)
+                {
+                    listRooms[i].AddToRoom(employee, sortedRooms[i].buildingSpace);
+
+                    AddToNextRoom(employee, givenRooms);
+                }
+
+                AddUnaddedEmployees(sortedEmployees, sortedRooms);
+
+                return new List<RoomContainer>(listRooms);
+            }
+            catch
+            {
+                throw new Exception("Unexpected Error, Employees could not be added to rooms.");
             }
 
-            AddUnaddedEmployees(sortedEmployees, sortedRooms);
-
-            return new List<RoomContainer>(listRooms);
         }
 
         // Voegt de employees toe die nog niet zijn toegevoegd.

@@ -75,6 +75,8 @@ namespace TechnotheekWeb.Controllers
             {
                 user = userContainer.LoginUser(model);
 
+                if(user.Username != null)
+                {
                 HttpContext.Session.SetString("ID", user.ID.ToString());
                 HttpContext.Session.SetString("FirstName", user.FirstName);
                 HttpContext.Session.SetString("LastName", user.LastName);
@@ -94,8 +96,14 @@ namespace TechnotheekWeb.Controllers
                 {
                     return RedirectToAction("Index", "Customer", user);
                 }
+
+                }
+                else
+                {
+                    ViewBag.SuccesOrNot = "Wrong Password";
+                }
             }
-            return RedirectToAction("Login","Account");
+            return RedirectToAction("Index","Home");
         }
     }
 }

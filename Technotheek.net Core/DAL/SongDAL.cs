@@ -76,9 +76,11 @@ namespace TechnotheekWeb
         {
             Song song = new Song();
 
-            SqlCommand cmd = new SqlCommand("Select * from Song Inner Join Artist on Song.SongLink=@SongLink " +
-                " Inner Join Album on Song.SongLink=@SongLink" +
-                " Inner Join Genre on Song.SongLink=@SongLink", con);
+
+            SqlCommand cmd = new SqlCommand("Select* From Song " +
+                "Inner Join Artist on Song.ArtistID = Artist.ID " +
+                "Inner Join Album on Song.AlbumID = Album.ID " +
+                "Inner Join Genre on Song.GenreID = Genre.ID where Song.SongLink = @SongLink", con);
 
             cmd.Parameters.AddWithValue("@SongLink", songLink);
 

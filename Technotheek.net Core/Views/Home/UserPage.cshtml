@@ -122,17 +122,26 @@
 </div>
 
 
-@section scripts{ 
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        $("#open").click(function () {
-            $("#loginModal").modal('show');
-        });
+    $("#open").click(function () {
+        $("#loginModal").modal('show');
+    });
 
-        $("#btnHideModal").click(function () {
-            $("#loginModal").modal('hide');
-        });
-    </script>
+    $("#btnHideModal").click(function () {
+        $("#loginModal").modal('hide');
+    });
+</script>
+
+@if(ViewBag.SuccesOrNot != null)
+{
+
+<script>
+
+    alert(ViewBag.SuccesOrNot)
+
+</script>
 
 }
+

@@ -123,7 +123,7 @@ namespace TechnotheekWeb.Controllers
             }
             else
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Account");
             }
         }
 
@@ -152,6 +152,12 @@ namespace TechnotheekWeb.Controllers
                     model.Image.CopyTo(new FileStream(filePath, FileMode.Create));
 
                     userContainer.ReturnInsertImage(user, currentUser.ID);
+
+                    ViewBag.SuccesOrNot = "Photo Saved!";
+                }
+                else
+                {
+                    ViewBag.SuccesOrNot = "ERROR! Photo not saved. ";
                 }
             }
             return RedirectToAction("userPage" , "Home");

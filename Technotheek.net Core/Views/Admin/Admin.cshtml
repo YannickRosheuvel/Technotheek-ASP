@@ -19,7 +19,7 @@
 
 @{
     var Room = "Room";
-        var employeesUnadded = "Unadded Employees";
+    var employeesUnadded = "Unadded Employees";
 }
 
 
@@ -33,10 +33,9 @@
 <form enctype="multipart/form-data" asp-controller="Admin" asp-action="Upload"
       method="post" class="mt-3">
     <div class="form-group">
-        <div>
+        <div class="custom-file">
             <div class="custom-file">
                 <input asp-for="Song" class="form-control custom-file-input">
-                <span asp-validation-for="Song"></span>
                 <label class="custom-file-label">Choose File...</label>
             </div>
         </div>
@@ -112,12 +111,12 @@
                     </td>
                     @foreach (Employee employee in item.ReturnEmployees())
                     {
-                <td>
+                        <td>
 
-                    @Html.DisplayFor(modelItem => employee.name) |
-                    @Html.DisplayFor(modelItem => employee.employeeSpace) |
-                    @Html.DisplayFor(modelItem => employee.functionType)
-                </td>
+                            @Html.DisplayFor(modelItem => employee.name) |
+                            @Html.DisplayFor(modelItem => employee.employeeSpace) |
+                            @Html.DisplayFor(modelItem => employee.functionType)
+                        </td>
                     }
                     <td>
                         @Html.ActionLink("Open", "ViewEmployees", new { employees = Json.Serialize(item.ReturnEmployees()) })
@@ -161,18 +160,23 @@
 
 @*<partial name="_AddEmployeeView" />*@
 
-@section scripts{
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            $('.custom-file-input').on("change", function () {
-                var fileName = $(this).val().split("\\").pop();
-                $(this).next('.custom-file-label').html(fileName);
-            });
+<script>
+    $(document).ready(function () {
+        $('.custom-file-input').on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).next('.custom-file-label').html(fileName);
         });
+    });
+</script>
+
+@if (ViewBag.SuccesOrNot != null)
+{
+    <script>
+
+        alert(ViewBag.SuccesOrNot)
+
     </script>
-
-
 }

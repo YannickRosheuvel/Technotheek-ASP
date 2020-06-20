@@ -57,30 +57,30 @@ namespace TechnotheekWeb.Controllers
 
         private List<Employee> employees = new List<Employee>
         {
-        new Employee(Employee.EmployeeSpace.Big, "Jimmy", Employee.FunctionType.HardwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Medium, "Floris", Employee.FunctionType.ProjectManager, false),
-        new Employee(Employee.EmployeeSpace.Medium, "Quincy", Employee.FunctionType.HardwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Big, "Indigo", Employee.FunctionType.ProjectManager, false),
-        new Employee(Employee.EmployeeSpace.Medium, "Marjolijn", Employee.FunctionType.HardwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Small, "Jens", Employee.FunctionType.SoftwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Small, "Yannick", Employee.FunctionType.SoftwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Small, "Femke", Employee.FunctionType.ProjectManager, false),
-        new Employee(Employee.EmployeeSpace.Big, "Haitse", Employee.FunctionType.SoftwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Small, "Alex", Employee.FunctionType.ProjectManager, false),
-        new Employee(Employee.EmployeeSpace.Big, "Merijn", Employee.FunctionType.ProjectManager, false),
-        new Employee(Employee.EmployeeSpace.Medium, "Toon", Employee.FunctionType.SoftwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Big, "Theo", Employee.FunctionType.SoftwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Medium, "Julius", Employee.FunctionType.ProjectManager, false),
-        new Employee(Employee.EmployeeSpace.Small, "Thomas", Employee.FunctionType.SoftwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Medium, "Tim", Employee.FunctionType.SoftwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Medium, "Tristan", Employee.FunctionType.HardwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Big, "Wojtek", Employee.FunctionType.SoftwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Medium, "Marit", Employee.FunctionType.ProjectManager, false),
-        new Employee(Employee.EmployeeSpace.Small, "Nanne", Employee.FunctionType.SoftwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Medium, "Gijs", Employee.FunctionType.SoftwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Medium, "North", Employee.FunctionType.HardwareEngineer, false),
-        new Employee(Employee.EmployeeSpace.Medium, "Iris", Employee.FunctionType.ProjectManager, false),
-        new Employee(Employee.EmployeeSpace.Small, "Abel", Employee.FunctionType.SoftwareEngineer, false)
+        new Employee(Employee.EmployeeSpace.Big, "Jimmy", Employee.FunctionType.HardwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Floris", Employee.FunctionType.ProjectManager),
+        new Employee(Employee.EmployeeSpace.Medium, "Quincy", Employee.FunctionType.HardwareEngineer),
+        new Employee(Employee.EmployeeSpace.Big, "Indigo", Employee.FunctionType.ProjectManager),
+        new Employee(Employee.EmployeeSpace.Medium, "Marjolijn", Employee.FunctionType.HardwareEngineer),
+        new Employee(Employee.EmployeeSpace.Small, "Jens", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Small, "Yannick", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Small, "Femke", Employee.FunctionType.ProjectManager),
+        new Employee(Employee.EmployeeSpace.Big, "Haitse", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Small, "Alex", Employee.FunctionType.ProjectManager),
+        new Employee(Employee.EmployeeSpace.Big, "Merijn", Employee.FunctionType.ProjectManager),
+        new Employee(Employee.EmployeeSpace.Medium, "Toon", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Big, "Theo", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Julius", Employee.FunctionType.ProjectManager),
+        new Employee(Employee.EmployeeSpace.Small, "Thomas", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Tim", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Tristan", Employee.FunctionType.HardwareEngineer),
+        new Employee(Employee.EmployeeSpace.Big, "Wojtek", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Marit", Employee.FunctionType.ProjectManager),
+        new Employee(Employee.EmployeeSpace.Small, "Nanne", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Gijs", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "North", Employee.FunctionType.HardwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Iris", Employee.FunctionType.ProjectManager),
+        new Employee(Employee.EmployeeSpace.Small, "Abel", Employee.FunctionType.SoftwareEngineer)
 
 
 
@@ -135,6 +135,8 @@ namespace TechnotheekWeb.Controllers
         [HttpPost]
         public IActionResult Upload(SongCreateViewModel model)
         {
+            ViewBag.User = currentAdmin;
+
             if (ModelState.IsValid)
             {
                 if (model.Song != null)
@@ -147,12 +149,17 @@ namespace TechnotheekWeb.Controllers
 
                     songContainer.NewSongAdd(model);
                 }
+                else
+                {
+                    ViewBag.SuccesOrNot = "Could not save song!";
+                }
             }
-            return RedirectToAction("Admin");
+            ViewBag.SuccesOrNot = "Song saved!";
+            return View("Admin");
         }
 
         [HttpPost]
-        public IActionResult FillRooms(IEnumerable<EmployeeDetailsViewModel> listOfEmployeeDataViewModels)
+        public IActionResult FillRooms()
         {
 
             buildingContainer.AddEmployees(rooms, employees);

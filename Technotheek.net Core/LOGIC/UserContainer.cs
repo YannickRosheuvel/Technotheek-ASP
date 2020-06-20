@@ -38,9 +38,9 @@ namespace TechnotheekWeb.Containers
             {
                 return userDAL.Login(model);
             }
-            catch(Exception ex)
+            catch
             {
-                throw new Exception(ex.ToString());
+                throw new Exception("Login failed, Please check your internet connection");
             }
         }
 
@@ -50,9 +50,9 @@ namespace TechnotheekWeb.Containers
             {
                 return userDAL.GetUserData(userID);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception(ex.ToString());
+                throw new Exception("Error! Could not retrieve User Data.");
             }
         }
 

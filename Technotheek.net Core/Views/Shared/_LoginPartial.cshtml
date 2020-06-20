@@ -5,8 +5,15 @@
     ViewBag.Title = "Login";
 }
 
- <link href="~/css/LoginStyle.css" rel="stylesheet" />
- <link href="~/css/StyleSheet.css" rel="stylesheet" />
+<link href="~/css/LoginStyle.css" rel="stylesheet" />
+<link href="~/css/StyleSheet.css" rel="stylesheet" />
+
+@if (ViewBag.SuccesOrNot != null)
+{
+    <p>
+        @ViewBag.SuccesOrNot
+    </p>
+}
 
 <div class="agileits-main">
     <div class="header-main">
