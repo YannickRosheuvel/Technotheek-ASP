@@ -43,6 +43,7 @@ namespace Technotheek.net_Core.LOGIC
             }
             else
             {
+                employee.Added = false;
                 return new List<Employee>(employeesInRoom);
             }
         }

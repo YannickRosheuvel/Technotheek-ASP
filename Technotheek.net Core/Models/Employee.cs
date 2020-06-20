@@ -7,11 +7,12 @@ namespace Technotheek.net_Core.Models
 {
     public class Employee
     {
-        public Employee(EmployeeSpace employeeSpace, string Name, FunctionType functionType )
+        public Employee(EmployeeSpace employeeSpace, string Name, FunctionType functionType, bool added )
         {
             this.functionType = functionType;
             this.employeeSpace = employeeSpace;
             this.name = Name;
+            this.Added = added;
         }
 
         public enum FunctionType

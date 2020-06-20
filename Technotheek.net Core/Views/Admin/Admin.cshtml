@@ -10,12 +10,18 @@
 }
 
 @{
+    var unaddedEmployees = ViewBag.UnaddedEmployees as IEnumerable<Technotheek.net_Core.Models.Employee>;
+}
+
+@{
     var roomSizes = ViewBag.RoomSize as List<Technotheek.net_Core.Models.Room>;
 }
 
 @{
-    var room = "Room";
+    var Room = "Room";
+        var employeesUnadded = "Unadded Employees";
 }
+
 
 @{
     int i = 0;
@@ -86,7 +92,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => room)
+                @Html.DisplayNameFor(model => Room)
             </th>
             <th></th>
         </tr>
@@ -97,47 +103,76 @@
 
             @foreach (var item in rooms)
             {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => roomSizes[i].buildingSpace)
-                @{
-                    i = i + 1;
-                }
-            </td>
-            @foreach (Employee employee in item.ReturnEmployees())
-            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => roomSizes[i].buildingSpace)
+                        @{
+                            i = i + 1;
+                        }
+                    </td>
+                    @foreach (Employee employee in item.ReturnEmployees())
+                    {
                 <td>
-                    @Html.DisplayFor(modelItem => employee.employeeSpace)
 
-
-                    @Html.DisplayFor(modelItem => employee.name)
-
-                    @Html.DisplayFor(modelItem => employee.functionType) 
+                    @Html.DisplayFor(modelItem => employee.name) |
+                    @Html.DisplayFor(modelItem => employee.employeeSpace) |
+                    @Html.DisplayFor(modelItem => employee.functionType)
                 </td>
+                    }
+                    <td>
+                        @Html.ActionLink("Open", "ViewEmployees", new { employees = Json.Serialize(item.ReturnEmployees()) })
+                    </td>
+                </tr>
             }
-            <td>
-                @Html.ActionLink("Open", "ViewEmployees", new { employees = Json.Serialize(item.ReturnEmployees()) })
-            </td>
+        }
+    </tbody>
+</table>
+
+<table class="table table-bordered table-dark">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => employeesUnadded)
+            </th>
+            <th></th>
         </tr>
-                    }
-                    }
-                </tbody>
-    </table>
+    </thead>
+    <tbody>
+        @if (unaddedEmployees != null)
+        {
 
-    @*<partial name="_AddEmployeeView" />*@
+            @foreach (var item in unaddedEmployees)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.employeeSpace)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.functionType)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
 
-    @section scripts{
+@*<partial name="_AddEmployeeView" />*@
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+@section scripts{
 
-        <script>
-            $(document).ready(function () {
-                $('.custom-file-input').on("change", function () {
-                    var fileName = $(this).val().split("\\").pop();
-                    $(this).next('.custom-file-label').html(fileName);
-                });
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
             });
-        </script>
+        });
+    </script>
 
 
-    }
+}

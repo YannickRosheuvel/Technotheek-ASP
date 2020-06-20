@@ -24,14 +24,14 @@ namespace TechnotheekWeb.Controllers
         static SongDAL songDAL;
         SongContainer songContainer;
         List<RoomContainer> roomContainers;
-        List<Employee> employeesInRoom;
+        List<Employee> unaddedEmployees;
         private readonly IWebHostEnvironment hostingEnviroment;
 
         static User currentAdmin;
 
         public AdminController(IWebHostEnvironment hostingEnviroment)
         {
-            employeesInRoom = new List<Employee>();
+            unaddedEmployees = new List<Employee>();
             buildingContainer = new BuildingContainer();
             songDAL = new SongDAL();
             songContainer = new SongContainer(songDAL);
@@ -57,28 +57,31 @@ namespace TechnotheekWeb.Controllers
 
         private List<Employee> employees = new List<Employee>
         {
-        new Employee(Employee.EmployeeSpace.Big, "Femke", Employee.FunctionType.HardwareEngineer),
-        new Employee(Employee.EmployeeSpace.Medium, "Floris", Employee.FunctionType.ProjectManager),
-        new Employee(Employee.EmployeeSpace.Medium, "Quincy", Employee.FunctionType.HardwareEngineer),
-        new Employee(Employee.EmployeeSpace.Big, "Indigo", Employee.FunctionType.ProjectManager),
-        new Employee(Employee.EmployeeSpace.Medium, "Youssef", Employee.FunctionType.HardwareEngineer),
-        new Employee(Employee.EmployeeSpace.Small, "Jens", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Small, "Yannick", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Small, "Femke", Employee.FunctionType.ProjectManager),
-        new Employee(Employee.EmployeeSpace.Big, "Thomas", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Small, "Julius", Employee.FunctionType.ProjectManager),
-        new Employee(Employee.EmployeeSpace.Big, "Merijn", Employee.FunctionType.ProjectManager),
-        new Employee(Employee.EmployeeSpace.Medium, "Jumeira", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Big, "Theo", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Medium, "Bas", Employee.FunctionType.ProjectManager),
-        new Employee(Employee.EmployeeSpace.Small, "Mohammed", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Medium, "Erik", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Medium, "Youssef", Employee.FunctionType.HardwareEngineer),
-        new Employee(Employee.EmployeeSpace.Big, "Theo", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Medium, "Bas", Employee.FunctionType.ProjectManager),
-        new Employee(Employee.EmployeeSpace.Small, "Mohammed", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Medium, "Erik", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Medium, "Youssef", Employee.FunctionType.HardwareEngineer)
+        new Employee(Employee.EmployeeSpace.Big, "Jimmy", Employee.FunctionType.HardwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Medium, "Floris", Employee.FunctionType.ProjectManager, false),
+        new Employee(Employee.EmployeeSpace.Medium, "Quincy", Employee.FunctionType.HardwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Big, "Indigo", Employee.FunctionType.ProjectManager, false),
+        new Employee(Employee.EmployeeSpace.Medium, "Marjolijn", Employee.FunctionType.HardwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Small, "Jens", Employee.FunctionType.SoftwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Small, "Yannick", Employee.FunctionType.SoftwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Small, "Femke", Employee.FunctionType.ProjectManager, false),
+        new Employee(Employee.EmployeeSpace.Big, "Haitse", Employee.FunctionType.SoftwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Small, "Alex", Employee.FunctionType.ProjectManager, false),
+        new Employee(Employee.EmployeeSpace.Big, "Merijn", Employee.FunctionType.ProjectManager, false),
+        new Employee(Employee.EmployeeSpace.Medium, "Toon", Employee.FunctionType.SoftwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Big, "Theo", Employee.FunctionType.SoftwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Medium, "Julius", Employee.FunctionType.ProjectManager, false),
+        new Employee(Employee.EmployeeSpace.Small, "Thomas", Employee.FunctionType.SoftwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Medium, "Tim", Employee.FunctionType.SoftwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Medium, "Tristan", Employee.FunctionType.HardwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Big, "Wojtek", Employee.FunctionType.SoftwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Medium, "Marit", Employee.FunctionType.ProjectManager, false),
+        new Employee(Employee.EmployeeSpace.Small, "Nanne", Employee.FunctionType.SoftwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Medium, "Gijs", Employee.FunctionType.SoftwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Medium, "North", Employee.FunctionType.HardwareEngineer, false),
+        new Employee(Employee.EmployeeSpace.Medium, "Iris", Employee.FunctionType.ProjectManager, false),
+        new Employee(Employee.EmployeeSpace.Small, "Abel", Employee.FunctionType.SoftwareEngineer, false)
+
 
 
 
@@ -154,11 +157,17 @@ namespace TechnotheekWeb.Controllers
 
             buildingContainer.AddEmployees(rooms, employees);
             
-            foreach (var currentRoom in buildingContainer.ReturnRooms())
+            foreach (RoomContainer currentRoom in buildingContainer.ReturnRooms())
             {
                 roomContainers.Add(currentRoom);
+
+                foreach(Employee employeeInRoom in currentRoom.ReturnEmployees())
+                {
+                    unaddedEmployees.Add(employeeInRoom);
+                }
             }
 
+            ViewBag.UnaddedEmployees = buildingContainer.GetUnAddedEmployees(unaddedEmployees);
             ViewBag.User = currentAdmin;
             ViewBag.Rooms = roomContainers;
             ViewBag.RoomSize = rooms;

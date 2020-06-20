@@ -48,7 +48,7 @@ namespace Technotheek.net_Core.LOGIC
         {
             foreach (Employee item in employeeList)
             {
-                Employee employee = new Employee(item.employeeSpace, item.name, item.functionType);
+                Employee employee = new Employee(item.employeeSpace, item.name, item.functionType, false);
                 givenEmployees.Add(employee);
             }
         }
@@ -97,13 +97,17 @@ namespace Technotheek.net_Core.LOGIC
             {
                 if (employee.Added == false)
                 {
+                    i = 0;
                     foreach (RoomContainer listRoom in listRooms)
                     {
-                        int ii = 0;
-                        if (ii + 1 < roomsGiven.Count)
+                        if (i + 1 < roomsGiven.Count)
                         {
                             listRoom.AddToRoom(employee, roomsGiven[i].buildingSpace);
-                            ii = ii + 1;
+                            i = i + 1;
+                            if(employee.Added == true)
+                            {
+                                break;
+                            }
                         }
 
                     }
@@ -113,7 +117,7 @@ namespace Technotheek.net_Core.LOGIC
 
         public List<Employee> GetUnAddedEmployees(List<Employee> sortedEmployees)
         {
-            foreach (var employee in sortedEmployees)
+            foreach (var employee in givenEmployees)
             {
                 if(employee.Added == false)
                 {
