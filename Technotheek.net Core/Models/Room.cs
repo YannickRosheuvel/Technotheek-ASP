@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Technotheek.net_Core.Models.RoomSpace
+namespace Technotheek.net_Core.Models
 {
     public class Room
     {

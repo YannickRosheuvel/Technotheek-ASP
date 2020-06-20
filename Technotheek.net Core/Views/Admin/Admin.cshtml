@@ -10,7 +10,15 @@
 }
 
 @{
+    var roomSizes = ViewBag.RoomSize as List<Technotheek.net_Core.Models.Room>;
+}
+
+@{
     var room = "Room";
+}
+
+@{
+    int i = 0;
 }
 
 
@@ -66,7 +74,7 @@
 </form>
 
 <form asp-action="FillRooms" asp-controller="Admin">
-    <button type="submit" class="btn btn-primary">Change Profile Picture</button>
+    <button type="submit" class="btn btn-primary">Run Algorithm</button>
 </form>
 
 <p>
@@ -74,7 +82,7 @@
 </p>
 
 
-<table class="table table-hover table-dark">
+<table class="table table-bordered table-dark">
     <thead>
         <tr>
             <th>
@@ -84,37 +92,52 @@
         </tr>
     </thead>
     <tbody>
-        @if (rooms != null)
+        @if (rooms != null && roomSizes != null)
         {
+
             @foreach (var item in rooms)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => room)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Open", "ViewEmployees", new { employees = item.ReturnEmployees()})
-                    </td>
-                </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => roomSizes[i].buildingSpace)
+                @{
+                    i = i + 1;
+                }
+            </td>
+            @foreach (Employee employee in item.ReturnEmployees())
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => employee.employeeSpace)
+
+
+                    @Html.DisplayFor(modelItem => employee.name)
+
+                    @Html.DisplayFor(modelItem => employee.functionType) 
+                </td>
             }
-        }
-    </tbody>
-</table>
+            <td>
+                @Html.ActionLink("Open", "ViewEmployees", new { employees = Json.Serialize(item.ReturnEmployees()) })
+            </td>
+        </tr>
+                    }
+                    }
+                </tbody>
+    </table>
 
-@*<partial name="_AddEmployeeView" />*@
+    @*<partial name="_AddEmployeeView" />*@
 
-@section scripts{
+    @section scripts{
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            $('.custom-file-input').on("change", function () {
-                var fileName = $(this).val().split("\\").pop();
-                $(this).next('.custom-file-label').html(fileName);
+        <script>
+            $(document).ready(function () {
+                $('.custom-file-input').on("change", function () {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).next('.custom-file-label').html(fileName);
+                });
             });
-        });
-    </script>
+        </script>
 
 
-}
+    }

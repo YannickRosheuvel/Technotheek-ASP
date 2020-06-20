@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using Technotheek.net_Core.Containers;
 using Technotheek.net_Core.LOGIC;
 using Technotheek.net_Core.Models;
-using Technotheek.net_Core.Models.RoomSpace;
 using Technotheek.net_Core.ViewModels;
 using Technotheek.Tests;
 using TechnotheekWeb.Containers;
 using TechnotheekWeb.Models;
-using static Technotheek.net_Core.Models.RoomSpace.Room;
+using static Technotheek.net_Core.Models.Room;
 
 namespace TechnotheekUnitTests
 {
@@ -25,7 +24,7 @@ namespace TechnotheekUnitTests
             {
                 new Employee(Employee.EmployeeSpace.Small, "Thomas", Employee.FunctionType.SoftwareEngineer),
                 new Employee(Employee.EmployeeSpace.Small, "Femke", Employee.FunctionType.ProjectManager),
-                new Employee(Employee.EmployeeSpace.Big, "Julius", Employee.FunctionType.HardwareEngineer),
+                new Employee(Employee.EmployeeSpace.Big, "Julius", Employee.FunctionType.SoftwareEngineer),
                 new Employee(Employee.EmployeeSpace.Big, "Merijn", Employee.FunctionType.ProjectManager)
             };
 

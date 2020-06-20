@@ -14,7 +14,7 @@ using Technotheek.net_Core.Models;
 using Technotheek.net_Core.ViewModels;
 using TechnotheekWeb.Containers;
 using TechnotheekWeb.Models;
-using Technotheek.net_Core.Models.RoomSpace;
+using Newtonsoft.Json;
 
 namespace TechnotheekWeb.Controllers
 {
@@ -42,14 +42,15 @@ namespace TechnotheekWeb.Controllers
         private List<Room> rooms = new List<Room>
         {
             new Room(Room.SpaceBuilding.BigBuilding),
+            new Room(Room.SpaceBuilding.MediumBuilding),
+            new Room(Room.SpaceBuilding.MediumBuilding),
+            new Room(Room.SpaceBuilding.BigBuilding),
+            new Room(Room.SpaceBuilding.BigBuilding),
             new Room(Room.SpaceBuilding.SmallBuilding),
             new Room(Room.SpaceBuilding.MediumBuilding),
-            new Room(Room.SpaceBuilding.MediumBuilding),
-            new Room(Room.SpaceBuilding.BigBuilding),
-            new Room(Room.SpaceBuilding.BigBuilding),
-            new Room(Room.SpaceBuilding.MediumBuilding),
+            new Room(Room.SpaceBuilding.BigBuilding),            
             new Room(Room.SpaceBuilding.SmallBuilding),
-            new Room(Room.SpaceBuilding.BigBuilding),
+            new Room(Room.SpaceBuilding.SmallBuilding),
             new Room(Room.SpaceBuilding.BigBuilding)
 
         };
@@ -60,18 +61,25 @@ namespace TechnotheekWeb.Controllers
         new Employee(Employee.EmployeeSpace.Medium, "Floris", Employee.FunctionType.ProjectManager),
         new Employee(Employee.EmployeeSpace.Medium, "Quincy", Employee.FunctionType.HardwareEngineer),
         new Employee(Employee.EmployeeSpace.Big, "Indigo", Employee.FunctionType.ProjectManager),
-        new Employee(Employee.EmployeeSpace.Medium, "Jumeira", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Big, "Theo", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Medium, "Bas", Employee.FunctionType.ProjectManager),
-        new Employee(Employee.EmployeeSpace.Small, "Mohammed", Employee.FunctionType.SoftwareEngineer),
-        new Employee(Employee.EmployeeSpace.Medium, "Erik", Employee.FunctionType.SoftwareEngineer),
         new Employee(Employee.EmployeeSpace.Medium, "Youssef", Employee.FunctionType.HardwareEngineer),
         new Employee(Employee.EmployeeSpace.Small, "Jens", Employee.FunctionType.SoftwareEngineer),
         new Employee(Employee.EmployeeSpace.Small, "Yannick", Employee.FunctionType.SoftwareEngineer),
         new Employee(Employee.EmployeeSpace.Small, "Femke", Employee.FunctionType.ProjectManager),
         new Employee(Employee.EmployeeSpace.Big, "Thomas", Employee.FunctionType.SoftwareEngineer),
         new Employee(Employee.EmployeeSpace.Small, "Julius", Employee.FunctionType.ProjectManager),
-        new Employee(Employee.EmployeeSpace.Big, "Merijn", Employee.FunctionType.ProjectManager)
+        new Employee(Employee.EmployeeSpace.Big, "Merijn", Employee.FunctionType.ProjectManager),
+        new Employee(Employee.EmployeeSpace.Medium, "Jumeira", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Big, "Theo", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Bas", Employee.FunctionType.ProjectManager),
+        new Employee(Employee.EmployeeSpace.Small, "Mohammed", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Erik", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Youssef", Employee.FunctionType.HardwareEngineer),
+        new Employee(Employee.EmployeeSpace.Big, "Theo", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Bas", Employee.FunctionType.ProjectManager),
+        new Employee(Employee.EmployeeSpace.Small, "Mohammed", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Erik", Employee.FunctionType.SoftwareEngineer),
+        new Employee(Employee.EmployeeSpace.Medium, "Youssef", Employee.FunctionType.HardwareEngineer)
+
 
 
         };
@@ -113,11 +121,12 @@ namespace TechnotheekWeb.Controllers
             return View("Admin");
         }
 
-        public IActionResult ViewEmployees(List<Employee> employees)
+        public IActionResult ViewEmployees(string employees)
         {
+            List<Employee> listEmployees = JsonConvert.DeserializeObject<List<Employee>>(employees);
             ViewBag.User = currentAdmin;
 
-            return View("Employees", employees);
+            return View("Employees", listEmployees);
         }
 
         [HttpPost]
@@ -152,6 +161,8 @@ namespace TechnotheekWeb.Controllers
 
             ViewBag.User = currentAdmin;
             ViewBag.Rooms = roomContainers;
+            ViewBag.RoomSize = rooms;
+
             return View("Admin");
         }
 

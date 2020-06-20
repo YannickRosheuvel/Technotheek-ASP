@@ -4,9 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Technotheek.net_Core.Models;
 using Technotheek.net_Core.ViewModels;
-using Technotheek.net_Core.Models.RoomSpace;
 using Technotheek.net_Core.Interfaces;
-using static Technotheek.net_Core.Models.RoomSpace.Room;
 
 namespace Technotheek.net_Core.LOGIC
 {

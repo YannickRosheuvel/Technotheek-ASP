@@ -11,14 +11,14 @@ namespace Technotheek.net_Core.Models
         {
             this.functionType = functionType;
             this.employeeSpace = employeeSpace;
-            this.name = name;
+            this.name = Name;
         }
 
         public enum FunctionType
         {
-            ProjectManager,
             HardwareEngineer,
-            SoftwareEngineer
+            SoftwareEngineer,
+            ProjectManager
         }
 
         public enum EmployeeSpace
